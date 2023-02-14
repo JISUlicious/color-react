@@ -1,0 +1,26 @@
+body {
+    margin:0px;
+}
+
+.Header {
+    display : inline-block;
+    background-color: cadetblue;
+    width:100%;
+    text-align: center;
+    padding : 10px;
+}
+
+.Header span {
+    padding:10px;
+}
+
+.Calendar {
+    display: grid;
+    background-color: burlywood;
+    padding:20px;
+}
+
+.DayBox {
+    background-color: coral;
+    margin:5px;
+}
