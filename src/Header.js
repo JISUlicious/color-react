@@ -1,14 +1,16 @@
-export const Header = ({year, setYear}) => {
-    // Header component
-    // contains yearNavButtons, year, menuButton
+/* 
+Header component
+contains yearNavButtons, year, menuButton
+*/
 
+export const Header = ({year, setYear}) => {
     return (
-      <div className="Header">
-        <span className="yearNavButton" onClick={() => {setYear(year-1)}}>
+      <div className="header">
+        <span className="year-nav-button" onClick={() => {setYear(year-1)}}>
           prev
         </span>
         <span>{year}</span>
-        <span className="yearNavButton" onClick={() => {setYear(year+1)}}>
+        <span className="year-nav-button" onClick={() => {setYear(year+1)}}>
           next
         </span>
       </div>

@@ -7,7 +7,7 @@ function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   
   return (
-    <div className="App">
+    <div className="app">
       <Header year={calendarYear} setYear={setCalendarYear}/>
       <Calendar />
     </div>
