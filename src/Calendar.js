@@ -32,7 +32,6 @@ export const Calendar = () => { // 나중에 year를 받아서 날짜에 맞춰�
     }}
   >
     {boxes}
-  </div>
-
+  </div>;
   return calendar;
 };
