@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import { Header } from "./Header";
-import { Calendar } from "./Calendar";
+import { Header } from "./components/Header";
+import { Calendar } from "./components/Calendar";
 
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="app">
       <Header year={calendarYear} setYear={setCalendarYear}/>
-      <Calendar />
+      <Calendar year={calendarYear}/>
     </div>
   );
 }
