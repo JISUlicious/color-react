@@ -7,9 +7,10 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep
 const numColunms = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-export const Calendar = ({year, setDate}) => {
+export const Calendar = ({year, setDate, write}) => {
   const clickDayBox = (event) => {
-    setDate({day:event.target.dataset.row, month:monthNames[event.target.dataset.col-1], year:year})
+    setDate({day:event.target.dataset.row, month:monthNames[event.target.dataset.col-1], year:year});
+    write.current.classList.remove("hidden");
   };
 
   const boxes = [];
