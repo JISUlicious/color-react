@@ -1,18 +1,18 @@
-import { forwardRef } from "react";
+
 import "../styles/Write.scss";
 
-export const Write = forwardRef(({ date, setDate }, ref) => {
+export const Write = ({ date, setDate, hide}) => {
   return (
-    <div ref={ref} className="write">
+    <div className="write">
       <button
         onClick={() => {
-          setDate();
-          ref.current.classList.add("hidden");
+          setDate(null);
+          hide();
         }}
       >
         close
       </button>
-      <h1>{date ? `${date["day"]} ${date["month"]} ${date["year"]}` : ""}</h1>
+      <h1>{`${date["day"]} ${date["month"]} ${date["year"]}`}</h1>
       <input placeholder="Write here"></input>
       <button>color1</button>
       <button>color2</button>
@@ -22,4 +22,4 @@ export const Write = forwardRef(({ date, setDate }, ref) => {
       <button>submit</button>
     </div>
   );
-});
+};
