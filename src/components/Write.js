@@ -2,7 +2,6 @@
 import "../styles/Write.scss";
 
 export const Write = ({ date, setDate, colors, setColor, hide}) => {
-  console.log("rendering Write");
   const key = `c${date["year"]}${date["month"]}${date["day"]}`;
   const onColorSetButtonClick = (i) => {
     const newObj = {};

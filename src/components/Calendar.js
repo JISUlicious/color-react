@@ -21,7 +21,6 @@ const numColunms = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
 export const Calendar = ({ year, setDate, colors }) => {
-  console.log("rendering Calendar");
   const boxes = [];
   for (let colCount = 0; colCount < numColunms; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
