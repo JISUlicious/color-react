@@ -4,6 +4,7 @@ contains yearNavButtons, year, menuButton
 */
 
 export const Header = ({year, setYear}) => {
+  console.log("rendering Header");
     return (
       <div className="header">
         <span className="year-nav-button" onClick={() => {setYear(year-1)}}>

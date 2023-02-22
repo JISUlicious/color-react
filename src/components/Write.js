@@ -1,7 +1,14 @@
 
 import "../styles/Write.scss";
 
-export const Write = ({ date, setDate, hide}) => {
+export const Write = ({ date, setDate, colors, setColor, hide}) => {
+  console.log("rendering Write");
+  const key = `c${date["year"]}${date["month"]}${date["day"]}`;
+  const onColorSetButtonClick = (i) => {
+    const newObj = {};
+    newObj[key] = i;
+    setColor(Object.assign({...colors}, newObj));
+  }
   return (
     <div className="write">
       <button
@@ -14,11 +21,16 @@ export const Write = ({ date, setDate, hide}) => {
       </button>
       <h1>{`${date["day"]} ${date["month"]} ${date["year"]}`}</h1>
       <input placeholder="Write here"></input>
-      <button>color1</button>
-      <button>color2</button>
-      <button>color3</button>
-      <button>color4</button>
-      <button>color5</button>
+      {colors["ref"].map((v,i) => {
+        return (
+          <button 
+            key={i}
+            style={{
+              backgroundColor: `${v}`
+            }}
+            onClick={() => {onColorSetButtonClick(i);}}
+          >{i}</button>);
+      })}
       <button>submit</button>
     </div>
   );
