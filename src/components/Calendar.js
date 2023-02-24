@@ -2,23 +2,7 @@
 creates Calendar component
 creates DayBox div with loop
 */
-
-const monthNames = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-const numColunms = 13; // num months + day index col
-const numRows = 32; // num max days in a month + month index row
+import { numColunms, numRows, monthNames } from "../params";
 
 export const Calendar = ({ year, setDate, colors }) => {
   const boxes = [];
@@ -40,7 +24,7 @@ export const Calendar = ({ year, setDate, colors }) => {
           onClick={() => {
             setDate({
               year: year,
-              month: monthNames[colCount - 1],
+              month: colCount,
               day: rowCount,
             });
           }}

@@ -1,8 +1,9 @@
-
+import { monthNames } from "../params";
 import "../styles/Write.scss";
 
-export const Write = ({ date, setDate, colors, setColor, hide}) => {
-  const key = `c${date["year"]}${date["month"]}${date["day"]}`;
+export const Write = ({ date, colors, setColor, hide}) => {
+  const monthName = monthNames[date["month"]-1]
+  const key = `c${date["year"]}${monthName}${date["day"]}`;
   const onColorSetButtonClick = (i) => {
     const newObj = {};
     newObj[key] = i;
@@ -12,13 +13,12 @@ export const Write = ({ date, setDate, colors, setColor, hide}) => {
     <div className="write">
       <button
         onClick={() => {
-          setDate(null);
           hide();
         }}
       >
         close
       </button>
-      <h1>{`${date["day"]} ${date["month"]} ${date["year"]}`}</h1>
+      <h1>{`${date["day"]} ${monthName} ${date["year"]}`}</h1>
       <input placeholder="Write here"></input>
       {colors["ref"].map((v,i) => {
         return (

@@ -22,8 +22,7 @@ function App() {
         year={calendarYear}
         setYear={setCalendarYear} />
       { !!selectedDate && (<Write 
-        date={selectedDate} 
-        setDate={setSelectedDate}
+        date={selectedDate}
         colors={colorStatus}
         setColor={setColorStatus}
         hide={() => {setSelectedDate(null)}} />)}
