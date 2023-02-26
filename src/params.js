@@ -1,4 +1,4 @@
-
+export const referenceColors = ['rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,255,0)', 'rgb(0,0,255)', 'rgb(255,0,255)'];
 
 export const monthNames = [
     "Jan",
@@ -14,5 +14,3 @@ export const monthNames = [
     "Nov",
     "Dec",
   ];
-export const numColunms = 13; // num months + day index col
-export const numRows = 32; // num max days in a month + month index row

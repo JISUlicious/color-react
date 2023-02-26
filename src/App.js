@@ -7,25 +7,18 @@ import { Write } from "./components/Write";
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
-  const [colorStatus, setColorStatus] = useState({
-    ref: ['rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,255,0)', 'rgb(0,0,255)', 'rgb(255,0,255)'],
-    c2023Jan1: 0,
-    c2023Feb2: 1,
-    c2023Mar2: 2,
-    c2023Apr2: 3,
-    c2023May2: 4
-  });
+  const [colorStatus, setColorStatus] = useState({'2023-1-1': {color: 0, text: 'aaa'}});
   
   return (
     <div className="app">
-      <Header 
-        year={calendarYear}
-        setYear={setCalendarYear} />
       { !!selectedDate && (<Write 
         date={selectedDate}
         colors={colorStatus}
         setColor={setColorStatus}
         hide={() => {setSelectedDate(null)}} />)}
+      <Header 
+        year={calendarYear}
+        setYear={setCalendarYear} />
       <Calendar 
         year={calendarYear}
         setDate={setSelectedDate}
