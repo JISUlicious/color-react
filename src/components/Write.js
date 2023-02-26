@@ -18,7 +18,12 @@ export const Write = ({ date, colors, setColor, hide}) => {
   }
 
   return (
-    <div className="backdrop">
+    <div 
+      onClick={() => {
+        hide();
+      }} 
+      className="backdrop"
+    >
       <div className="write">
         <button
           onClick={() => {
