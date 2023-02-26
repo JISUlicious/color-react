@@ -4,25 +4,25 @@ import { keyGenerater } from "../functions/keyGenerater";
 import "../styles/Write.scss";
 
 export const Write = ({ date, colors, setColor, hide}) => {
-  const monthName = monthNames[date.month-1]
+  const monthName = monthNames[date.month-1];
   const key = keyGenerater(date);
   const [inpuText, setInputText] = useState(null);
   const onColorSetButtonClick = (i) => {
     setColor({...colors, [key]: {color: i}});
-  }
+  };
   const onTextChange = (event) => {
     setInputText(event.target.value);
-  }
+  };
   const onSubmitText = () => {
     setColor({...colors, [key]: {text: inpuText}});
-  }
+  };
 
   return (
     <div 
+      className="backdrop"
       onClick={() => {
         hide();
       }} 
-      className="backdrop"
     >
       <div className="write">
         <button
