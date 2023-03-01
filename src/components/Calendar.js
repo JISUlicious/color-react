@@ -3,17 +3,17 @@ creates Calendar component
 creates DayBox div with loop
 */
 import { monthNames, referenceColors } from "../params";
-import { keyGenerater } from "../functions/keyGenerater";
+import { dateToKey } from "../functions/dateToKey";
 
 const numColunms = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-export const Calendar = ({ year, setDate, colors }) => {
+export const Calendar = ({ year, setDate, records }) => {
   const boxes = [];
   for (let colCount = 0; colCount < numColunms; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
       const daysInMonth = new Date(year, colCount, 0).getDate();
-      const key = keyGenerater({year, month:colCount, day:rowCount});
+      const key = dateToKey({year, month:colCount, day:rowCount});
 
       const disabled = rowCount > daysInMonth;
       const indices = colCount === 0 || rowCount === 0;
@@ -27,7 +27,7 @@ export const Calendar = ({ year, setDate, colors }) => {
             }`,
             backgroundColor: `${
               disabled ? "dimgrey" 
-              : colors[key] ? referenceColors[colors[key].color] 
+              : records[key] ? referenceColors[records[key].color] 
               : null}`
           }}
           onClick={disabled || indices ? null : () => {

@@ -11,7 +11,6 @@ body {
     width: 100vw;
     height: 7vh;
     justify-content: space-between;
-    // text-align: center;
     .year-buttons {
         display: flex;
         align-items: center;
@@ -33,7 +32,7 @@ body {
     background-color: burlywood;
     height: 93vh;
     width: 100vw;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .day-box {

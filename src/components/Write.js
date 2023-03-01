@@ -1,30 +1,34 @@
 import { useState } from "react";
 import { monthNames, referenceColors } from "../params";
-import { keyGenerater } from "../functions/keyGenerater";
+import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
 
-export const Write = ({ date, colors, setColor, hide}) => {
+export const Write = ({ date, records, setRecords, hide}) => {
   const monthName = monthNames[date.month-1];
-  const key = keyGenerater(date);
-  const [inpuText, setInputText] = useState(null);
+  const key = dateToKey(date);
+  const [inputText, setInputText] = useState(records[key] ? records[key].text : undefined);
   const onColorSetButtonClick = (i) => {
-    setColor({...colors, [key]: {color: i}});
+    setRecords({...records, [key]: {...records[key], color: i}});
   };
   const onTextChange = (event) => {
     setInputText(event.target.value);
   };
-  const onSubmitText = () => {
-    setColor({...colors, [key]: {text: inpuText}});
+  const onSubmitText = (event) => {
+    event.preventDefault();
+    setRecords({...records, [key]: {...records[key], text: inputText}});
   };
 
   return (
     <div 
       className="backdrop"
-      onClick={() => {
+      onClick={(event) => {
         hide();
       }} 
     >
-      <div className="write">
+      <div 
+        className="write"
+        onClick={(event) => event.stopPropagation()}
+      >
         <button
           onClick={() => {
             hide();
@@ -38,13 +42,13 @@ export const Write = ({ date, colors, setColor, hide}) => {
             <button 
               key={i}
               style={{
-                backgroundColor: `${v}`
+                backgroundColor: v
               }}
-              onClick={() => {onColorSetButtonClick(i);}}
+              onClick={() => onColorSetButtonClick(i)}
             >{i}</button>);
         })}
         <form onSubmit={onSubmitText}>
-        <textarea value={inpuText ? inpuText : colors[key] ? colors[key].text : null} placeholder="Write here" onChange={onTextChange}></textarea>
+        <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
         <button type="submit">submit</button>
         </form>
       </div>
