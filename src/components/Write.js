@@ -21,7 +21,7 @@ export const Write = ({ date, records, setRecords, hide}) => {
   return (
     <div 
       className="backdrop"
-      onClick={(event) => {
+      onClick={() => {
         hide();
       }} 
     >
