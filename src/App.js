@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./styles/App.scss";
 import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
@@ -7,7 +7,13 @@ import { Write } from "./components/Write";
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
-  const [calendarRecords, setCalendarRecords] = useState({'2023-1-1': {color: 0, text: 'aaa'}});
+  const [calendarRecords, setCalendarRecords] = useState(
+    localStorage.getItem('calendarRecords') ? JSON.parse(localStorage.getItem('calendarRecords')) : {}
+  );
+
+  useEffect(() => {
+    localStorage.setItem('calendarRecords', JSON.stringify(calendarRecords))
+  }, [calendarRecords]);
   
   return (
     <div className="app">

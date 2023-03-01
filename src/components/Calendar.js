@@ -28,7 +28,8 @@ export const Calendar = ({ year, setDate, records }) => {
             backgroundColor: `${
               disabled ? "dimgrey" 
               : records[key] ? referenceColors[records[key].color] 
-              : null}`
+              : null}`,
+            border: records[key] ? "1px solid black" : null
           }}
           onClick={disabled || indices ? null : () => {
             setDate({
