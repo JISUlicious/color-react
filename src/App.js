@@ -7,9 +7,8 @@ import { Write } from "./components/Write";
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
-  const [calendarRecords, setCalendarRecords] = useState(
-    localStorage.getItem('calendarRecords') ? JSON.parse(localStorage.getItem('calendarRecords')) : {}
-  );
+  const savedCalendar = JSON.parse(localStorage.getItem('calendarRecords'));
+  const [calendarRecords, setCalendarRecords] = useState(savedCalendar ? savedCalendar : {});
 
   useEffect(() => {
     localStorage.setItem('calendarRecords', JSON.stringify(calendarRecords))
