@@ -1,24 +1,38 @@
+
+
 body {
     margin: 0px;
     height: 100vh;
 }
 
 .header {
-    display : inline-block;
+    display : flex;
     background-color: cadetblue;
-    width: 100%;
-    text-align: center;
-    padding : 10px;
-    span {
+    width: 100vw;
+    height: 7vh;
+    justify-content: space-between;
+    .year-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    button {
+        border: none;
+        background-color: transparent;
         padding: 10px;
+    }
+    .side-button {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 
 .calendar {
     display: grid;
     background-color: burlywood;
-    padding: 5px;
-    width: auto;
+    height: 93vh;
+    width: 100vw;
+    overflow-y: auto;
 }
 
 .day-box {
@@ -27,6 +41,7 @@ body {
     height: 20px;
     width: 20px;
     border-radius: 3px;
+    border: 1px solid coral;
     .disabled {
         background-color: dimgrey;
     }
@@ -35,4 +50,11 @@ body {
 .hidden {
     visibility: hidden;
     height: 0px;
+}
+
+.backdrop {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(2px);
 }

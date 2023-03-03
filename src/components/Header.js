@@ -4,15 +4,19 @@ contains yearNavButtons, year, menuButton
 */
 
 export const Header = ({year, setYear}) => {
-    return (
-      <div className="header">
-        <span className="year-nav-button" onClick={() => {setYear(year-1)}}>
+  return (
+    <div className="header">
+      <button className="side-button menu">|||</button>
+      <div className="year-buttons">
+        <button className="year-nav-button" onClick={() => {setYear(year-1)}}>
           prev
-        </span>
+        </button>
         <span>{year}</span>
-        <span className="year-nav-button" onClick={() => {setYear(year+1)}}>
+        <button className="year-nav-button" onClick={() => {setYear(year+1)}}>
           next
-        </span>
+        </button>
       </div>
-    );
-  };
+      <button className="side-button profile">|||</button>
+    </div>
+  );
+};

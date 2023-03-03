@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./styles/App.scss";
 import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
@@ -7,12 +7,27 @@ import { Write } from "./components/Write";
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
+  const savedCalendar = JSON.parse(localStorage.getItem('calendarRecords'));
+  const [calendarRecords, setCalendarRecords] = useState(savedCalendar ? savedCalendar : {});
+
+  useEffect(() => {
+    localStorage.setItem('calendarRecords', JSON.stringify(calendarRecords))
+  }, [calendarRecords]);
   
   return (
     <div className="app">
-      <Header year={calendarYear} setYear={setCalendarYear} />
-      { !!selectedDate && <Write date={selectedDate} setDate={setSelectedDate} hide={() => {setSelectedDate(null)}}/>}
-      <Calendar year={calendarYear} setDate={setSelectedDate} />
+      { !!selectedDate && (<Write 
+        date={selectedDate}
+        records={calendarRecords}
+        setRecords={setCalendarRecords}
+        hide={() => {setSelectedDate(null)}} />)}
+      <Header 
+        year={calendarYear}
+        setYear={setCalendarYear} />
+      <Calendar 
+        year={calendarYear}
+        setDate={setSelectedDate}
+        records={calendarRecords} />
     </div>
   );
 }
