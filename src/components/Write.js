@@ -16,6 +16,7 @@ export const Write = ({ date, records, setRecords, hide}) => {
   const onSubmitText = (event) => {
     event.preventDefault();
     setRecords({...records, [key]: {...records[key], text: inputText}});
+    hide();
   };
 
   return (

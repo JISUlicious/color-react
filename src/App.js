@@ -3,12 +3,14 @@ import "./styles/App.scss";
 import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
 import { Write } from "./components/Write";
+import { Menu } from "./components/Menu";
 
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
   const savedCalendar = JSON.parse(localStorage.getItem('calendarRecords'));
   const [calendarRecords, setCalendarRecords] = useState(savedCalendar ? savedCalendar : {});
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('calendarRecords', JSON.stringify(calendarRecords))
@@ -21,7 +23,11 @@ function App() {
         records={calendarRecords}
         setRecords={setCalendarRecords}
         hide={() => {setSelectedDate(null)}} />)}
-      <Header 
+      <Menu 
+        show={showMenu}
+        hide={() => setShowMenu(false)} />
+      <Header
+        setMenu={setShowMenu}
         year={calendarYear}
         setYear={setCalendarYear} />
       <Calendar 
