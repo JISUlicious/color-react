@@ -1,18 +1,18 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
 
-export const Menu = ({show, hide}) => {
+export const Menu = ({isMenuVisible, hide}) => {
   return (
     <dialog
-      open={show} 
+      open={isMenuVisible} 
       className="backdrop"
-      onClick={() => {hide();}}
+      onClick={() => hide()}
     >
       <div 
         className="menu"
-        onClick={(event) => {event.stopPropagation();}}
-      >
-        <button onClick={() => {hide();}}>close</button>
+        onClick={(event) => event.stopPropagation()}
+      >      
+        <button onClick={() => hide()}>close</button>
         <ul>
           <li>dialog</li>
           <li>create new calendar</li>

@@ -4,17 +4,14 @@ import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
 import { Write } from "./components/Write";
 import { Menu } from "./components/Menu";
+import { usePersistState } from "./hooks/usePersistState";
 
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
-  const savedCalendar = JSON.parse(localStorage.getItem('calendarRecords'));
-  const [calendarRecords, setCalendarRecords] = useState(savedCalendar ? savedCalendar : {});
-  const [showMenu, setShowMenu] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('calendarRecords', JSON.stringify(calendarRecords))
-  }, [calendarRecords]);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  
+  const [calendarRecords, setCalendarRecords] = usePersistState('calendarRecords', {});
   
   return (
     <div className="app">
@@ -24,10 +21,10 @@ function App() {
         setRecords={setCalendarRecords}
         hide={() => {setSelectedDate(null)}} />)}
       <Menu 
-        show={showMenu}
-        hide={() => setShowMenu(false)} />
+        isMenuVisible={isMenuVisible}
+        hide={() => setIsMenuVisible(false)} />
       <Header
-        setMenu={setShowMenu}
+        setMenu={setIsMenuVisible}
         year={calendarYear}
         setYear={setCalendarYear} />
       <Calendar 
