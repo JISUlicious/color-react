@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./styles/App.scss";
 import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
@@ -10,7 +10,6 @@ function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  
   const [calendarRecords, setCalendarRecords] = usePersistState('calendarRecords', {});
   
   return (
@@ -24,7 +23,7 @@ function App() {
         isMenuVisible={isMenuVisible}
         hide={() => setIsMenuVisible(false)} />
       <Header
-        setMenu={setIsMenuVisible}
+        showMenu={setIsMenuVisible}
         year={calendarYear}
         setYear={setCalendarYear} />
       <Calendar 

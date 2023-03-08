@@ -1,40 +1,36 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
+import { getItem, setItem } from "../functions/storage"; 
+import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender"; // useEffect 대체해서 사용하기
+// import { useIsRenderedBefore } from "./useIsRenderedBefore"; // 첫 렌더 스킵하는 함수 리턴시키기
 
-
-export const usePersistState = (key, defaultValue = null) => {
-  const getStoredValue = (key) => {
-    const storedData = localStorage.getItem(key);
-    console.log("item loaded");
-    const storedValue = storedData === null ? defaultValue : JSON.parse(storedData);
-    return storedValue;
-  };
+export const usePersistState = (key) => {
   
   const isRendered = useRef({});
-  const isRenderedBefore = (fn, fnKey) => {
-    if (isRendered.current[fnKey]) {
-      fn();
-      console.log(fnKey, "is rendered before. fn() executing")
-    } else {
-      isRendered.current = {...isRendered.current, [fnKey]:true};
-      console.log(fnKey, "is rendered for first time. Skipping fn()");
-    }
-  };
-
-  console.log(isRendered.current);
-  const storedValue = getStoredValue(key);
-  console.log("first load");
+  
+  const storedValue = getItem(key, {});
   const [value, setValue] = useState(storedValue);
+  
+  // 첫 렌더 스킵하는 함수 리턴
+  // const isRenderedBefore = useIsRenderedBefore();
+  // useEffect(() => isRenderedBefore(isRendered,()=>{
+  //   setItem(key, JSON.stringify(value));
+  // }, "setItem"), [value]);
 
-  useEffect(() => isRenderedBefore(()=>{
-      localStorage.setItem(key, JSON.stringify(value));
-      console.log("item set");
-    }, "setItem"), [value]);
+  // useEffect(() => isRenderedBefore(isRendered, ()=>{
+  //   const storedValue = getItem(key);
+  //   setValue(storedValue);
+  // }, "getStoredValue"), [key]);
+  
 
-  useEffect(() => isRenderedBefore(()=>{
-      const storedValue = getStoredValue(key);
-      setValue(storedValue);
-      console.log("get item");
-    }, "getStoredValue"), [key]);
+  // useEffect 대체 하는 방법
+  useEffectSkipInitialRender(isRendered, ()=>{
+    setItem(key, JSON.stringify(value));
+  }, "setItem", [value]);
+
+  useEffectSkipInitialRender(isRendered, ()=>{
+    const storedValue = getItem(key);
+    setValue(storedValue);
+  }, "getStoredValue", [key]);
 
   return [value, setValue];
 };

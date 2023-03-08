@@ -4,11 +4,11 @@ contains yearNavButtons, year, menuButton
 */
 import { MdMenu, MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
-export const Header = ({setMenu, year, setYear}) => {
+export const Header = ({showMenu, year, setYear}) => {
   return (
     <div className="header">
       <button
-        onClick={() => setMenu(true)}
+        onClick={() => showMenu(true)}
         className="side-button menu-button"
       >
         <MdMenu />
