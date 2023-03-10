@@ -1,10 +1,12 @@
+import localforage from "localforage";
 
-// to-do : async storage 적용하기
-export const getItem = (key, defaultValue = {}) => {
-    const storedData = localStorage.getItem(key);
-    return storedData === null ? defaultValue : JSON.parse(storedData);
-};
+export const getItem = (key, defaultValue = {}) => localforage.getItem(key)
+    .then(res => JSON.parse(res))
+    .catch(error => {
+        console.log(error);
+        return defaultValue;
+    });
 
-export const setItem = (key, value) => {
-    localStorage.setItem(key, value);
-};
+export const setItem = (key, value) => localforage.setItem(key, value)
+    .then(res => res)
+    .catch(error => console.log(error));
