@@ -7,15 +7,17 @@ export const Write = ({ date, records, setRecords, hide}) => {
   const monthName = monthNames[date.month-1];
   const key = dateToKey(date);
   const [inputText, setInputText] = useState(records[key] ? records[key].text : undefined);
+  const [colorIndex, setColorIndex] = useState(records[key] ? records[key].color : undefined);
   const onColorSetButtonClick = (i) => {
-    setRecords({...records, [key]: {...records[key], color: i}});
+    setColorIndex(i);
   };
   const onTextChange = (event) => {
     setInputText(event.target.value);
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    setRecords({...records, [key]: {...records[key], text: inputText}});
+    setRecords({...records, [key]: {...records[key], text: inputText, color:colorIndex}});
+    hide();
   };
 
   return (
@@ -49,7 +51,7 @@ export const Write = ({ date, records, setRecords, hide}) => {
         })}
         <form onSubmit={onSubmitText}>
         <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
-        <button type="submit">submit</button>
+        <button style={{backgroundColor:referenceColors[colorIndex]}} type="submit">submit</button>
         </form>
       </div>
     </div>

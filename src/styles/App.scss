@@ -11,6 +11,7 @@ body {
     width: 100vw;
     height: 7vh;
     justify-content: space-between;
+    
     .year-buttons {
         display: flex;
         align-items: center;
@@ -24,6 +25,15 @@ body {
     .side-button {
         padding-left: 20px;
         padding-right: 20px;
+        width: 20vw;
+        align-items: center;
+        display: flex;
+    }
+    .menu-button {
+        text-align: left;
+    }
+    .profile-button {
+        text-align: right;
     }
 }
 
