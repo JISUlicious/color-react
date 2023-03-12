@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export const useEffectSkipInitialRender = (isRenderedRef, fn, fnKey, depsList) => {
+export const useEffectSkipInitialRender = (fn, depsList) => {
+  const isRendered = useRef(false);
   useEffect(() => {
-    if (isRenderedRef.current[fnKey]) {
+    if (isRendered.current) {
       fn();
     } else {
-      isRenderedRef.current = {...isRenderedRef.current, [fnKey]:true};
+      isRendered.current = true;
     }  
   }, [...depsList]);
 };

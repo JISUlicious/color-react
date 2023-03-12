@@ -1,14 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getItem, setItem } from "../functions/storage"; 
 import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender"; 
+import { useIsRenderedBefore } from "./useIsRenderedBefore";
 
 export const usePersistState = (key) => {
   
-  const isRendered = useRef({});
-  
   const [value, setValue] = useState({});
-  
-  useEffectSkipInitialRender(isRendered, ()=>{
+
+  useEffectSkipInitialRender(()=>{
     setItem(key, JSON.stringify(value));
   }, "setItem", [value]);
 

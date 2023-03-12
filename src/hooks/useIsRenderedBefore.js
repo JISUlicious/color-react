@@ -1,11 +1,12 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 export const useIsRenderedBefore = () => {
-    return useCallback((ref, fn, fnKey) => {
-    if (ref.current[fnKey]) {
+    const isRendered = useRef(false)
+    return useCallback((fn) => {
+    if (isRendered.current) {
         fn();  
     } else {
-        ref.current = {...ref.current, [fnKey]:true};
+        isRendered.current = true;
     }
     }, []);
 };
