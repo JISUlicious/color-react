@@ -11,14 +11,15 @@ function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [record, setRecord] = useState(null);
+  const [contextRecord, setContextRecord] = useState(null);
   
   return (
-    <RecordContext.Provider value={[record, setRecord]}>
+    <RecordContext.Provider value={contextRecord}>
       <div className="app">
         { !!selectedDate && (<Write 
           date={selectedDate}
-          hide={() => {setSelectedDate(null)}} />)}
+          hide={() => {setSelectedDate(null)}}
+          setContext={setContextRecord} />)}
         <Menu 
           isMenuVisible={isMenuVisible}
           hide={() => setIsMenuVisible(false)} />
@@ -28,7 +29,8 @@ function App() {
           setYear={setCalendarYear} />
         <Calendar 
           year={calendarYear}
-          setDate={setSelectedDate} />
+          setDate={setSelectedDate}
+          setContext={setContextRecord} />
       </div>
     </RecordContext.Provider>
   );

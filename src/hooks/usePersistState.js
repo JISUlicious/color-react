@@ -7,7 +7,6 @@ export const usePersistState = (key, defaultValue) => {
   const [value, setValue] = useState(defaultValue);
 
   useEffectSkipInitialRender(()=>{
-    console.log("setItem", key, value);
     setItem(key, value).catch(error => console.log(error));
   }, [value]);
 

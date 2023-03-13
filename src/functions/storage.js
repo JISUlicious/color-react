@@ -21,6 +21,5 @@ export const getItem = (key, defaultValue = null) => localforage.getItem(key)
  * @returns JSON string
  */
 export const setItem = (key, value) => {
-    console.log("on setItem", key, value);
     return localforage.setItem(key, JSON.stringify(value));
 };

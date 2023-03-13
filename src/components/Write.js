@@ -1,15 +1,11 @@
 import { useContext, useState } from "react";
 import { monthNames, referenceColors } from "../params";
-import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
-import { usePersistState } from "../hooks/usePersistState";
 import { RecordContext } from "../App";
 
-export const Write = ({ date, hide}) => {
+export const Write = ({ date, hide, setContext }) => {
   const monthName = monthNames[date.month-1];
 
-  const key = dateToKey(date);
-  // const [record, setRecord] = usePersistState(key, null);
   const [record, setRecord] = useContext(RecordContext);
   
 
@@ -23,10 +19,10 @@ export const Write = ({ date, hide}) => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    console.log("submit", key, inputText, colorIndex);
     setRecord({...record, text: inputText, color: colorIndex});
-    
+    setContext(null);
     hide();
+
   };
 
   return (

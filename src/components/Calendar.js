@@ -9,7 +9,7 @@ import { DayBox } from "./DayBox";
 const numColunms = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-export const Calendar = ({ year, setDate }) => {
+export const Calendar = ({ year, setDate, setContext }) => {
   const boxes = [];
   for (let colCount = 0; colCount < numColunms; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
@@ -29,13 +29,7 @@ export const Calendar = ({ year, setDate }) => {
           disabled={disabled}
           indices={indices}
           setDate={setDate}
-          // onClick={() => {
-          //   setDate({
-          //     year: year,
-          //     month: colCount,
-          //     day: rowCount,
-          //   });
-          // }}
+          setContext={setContext}
         >
           {colCount === 0 && rowCount > 0 && rowCount}
           {rowCount === 0 && colCount > 0 && monthNames[colCount - 1]}

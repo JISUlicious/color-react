@@ -1,19 +1,17 @@
-import { useContext } from "react";
 import { dateToKey } from "../functions/dateToKey";
 import { usePersistState } from "../hooks/usePersistState";
 import { referenceColors } from "../params";
-import { RecordContext } from "../App";
 
-export const DayBox = ({date, gridArea, disabled, indices, setDate, children}) => {
+export const DayBox = ({date, gridArea, disabled, indices, setDate, setContext, children}) => {
   const key = dateToKey(date);
   
   const [record, setRecord] = usePersistState(key, null);
-  const [forwardRecord, setForwardRecord] = useContext(RecordContext);
-
+  
   const onClick = () => {
     setDate(date);
-    setForwardRecord([record, setRecord]);
+    setContext([record, setRecord]);
   };
+  
   return <div
     className={`day-box ${disabled ? "disabled" : ""}`}
     style={{
