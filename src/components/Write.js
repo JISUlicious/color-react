@@ -22,6 +22,7 @@ export const Write = ({ date, hide, recordRef}) => {
     event.preventDefault();
     console.log("submit", key, inputText, colorIndex);
     setRecord({...record, text: inputText, color: colorIndex});
+    recordRef.current = [null, null];
     hide();
   };
 
