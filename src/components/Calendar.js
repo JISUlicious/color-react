@@ -5,7 +5,7 @@ creates DayBox div with loop
 import { monthNames } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import { DayBox } from "./DayBox";
-import { forwardRef, useRef } from "react";
+import { forwardRef } from "react";
 
 const numColunms = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
@@ -31,13 +31,6 @@ export const Calendar = forwardRef(({ year, setDate}, ref) => {
           disabled={disabled}
           indices={indices}
           setDate={setDate}
-          // onClick={() => {
-          //   setDate({
-          //     year: year,
-          //     month: colCount,
-          //     day: rowCount,
-          //   });
-          // }}
         >
           {colCount === 0 && rowCount > 0 && rowCount}
           {rowCount === 0 && colCount > 0 && monthNames[colCount - 1]}
