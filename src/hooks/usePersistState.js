@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
 import { getItem, setItem } from "../functions/storage"; 
-import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender"; 
-import { useIsRenderedBefore } from "./useIsRenderedBefore";
+import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender";
 
-export const usePersistState = (key) => {
-  
-  const [value, setValue] = useState({});
+export const usePersistState = (key, defaultValue) => {
+
+  const [value, setValue] = useState(defaultValue);
 
   useEffectSkipInitialRender(()=>{
-    setItem(key, JSON.stringify(value));
-  }, "setItem", [value]);
+    console.log("setItem", key, value);
+    setItem(key, value).catch(error => console.log(error));
+  }, [value]);
 
   useEffect(()=>{
-      getItem(key)
-      .then(res => setValue(res))
-      .catch(error => console.log(error));
-    },[key]);
+    getItem(key)
+    .then(res => setValue(res))
+    .catch(error => console.log(error));
+  }, [key]);
 
   return [value, setValue];
 };

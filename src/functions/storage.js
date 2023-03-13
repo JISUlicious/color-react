@@ -3,21 +3,24 @@ import localforage from "localforage";
 /**
  * 
  * @param {*} key string
- * @param {*} defaultValue {}
+ * @param {*} defaultValue null
  * @returns object 
  */
-export const getItem = (key, defaultValue = {}) => localforage.getItem(key)
-    .then(res => JSON.parse(res))
-    .catch(error => {
-        console.log(error);
-        return defaultValue;
-    });
+export const getItem = (key, defaultValue = null) => localforage.getItem(key)
+    .then(res => {
+        if (res === null) {
+            return defaultValue;
+        } else {
+            return JSON.parse(res)
+        }});
 
 /**
  * 
  * @param {*} key string
- * @param {*} value JSON string
+ * @param {*} value any
  * @returns JSON string
  */
-export const setItem = (key, value) => localforage.setItem(key, value)
-    .then(res => res);
+export const setItem = (key, value) => {
+    console.log("on setItem", key, value);
+    return localforage.setItem(key, JSON.stringify(value));
+};

@@ -2,36 +2,33 @@
 creates Calendar component
 creates DayBox div with loop
 */
-import { monthNames, referenceColors } from "../params";
+import { monthNames } from "../params";
 import { dateToKey } from "../functions/dateToKey";
+import { DayBox } from "./DayBox";
 
 const numColunms = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-export const Calendar = ({ year, setDate, records }) => {
+export const Calendar = ({ year, setDate }) => {
   const boxes = [];
   for (let colCount = 0; colCount < numColunms; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
       const daysInMonth = new Date(year, colCount, 0).getDate();
-      const key = dateToKey({year, month:colCount, day:rowCount});
+      const date = {year, month:colCount, day:rowCount};
+      const key = dateToKey(date);
 
       const disabled = rowCount > daysInMonth;
       const indices = colCount === 0 || rowCount === 0;
       const box = (
-        <div
-          className={`day-box ${disabled ? "disabled" : ""}`}
+        <DayBox
           key={key}
-          style={{
-            gridArea: `${rowCount + 1}/${colCount + 1}/${rowCount + 2}/${
-              colCount + 2
-            }`,
-            backgroundColor: `${
-              disabled ? "dimgrey" 
-              : records[key] ? referenceColors[records[key].color] 
-              : null}`,
-            border: records[key] ? "1px solid black" : null
-          }}
-          onClick={disabled || indices ? null : () => {
+          date={date}
+          gridArea={`${rowCount + 1}/${colCount + 1}/${rowCount + 2}/${
+            colCount + 2
+          }`}
+          disabled={disabled}
+          indices={indices}
+          onClick={() => {
             setDate({
               year: year,
               month: colCount,
@@ -41,7 +38,7 @@ export const Calendar = ({ year, setDate, records }) => {
         >
           {colCount === 0 && rowCount > 0 && rowCount}
           {rowCount === 0 && colCount > 0 && monthNames[colCount - 1]}
-        </div>
+        </DayBox>
       );
       boxes.push(box);
     }
