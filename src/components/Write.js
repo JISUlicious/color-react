@@ -4,11 +4,11 @@ import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
 import { usePersistState } from "../hooks/usePersistState";
 
-export const Write = ({ date, hide}) => {
+export const Write = ({ date, hide, recordRef}) => {
   const monthName = monthNames[date.month-1];
-
+  
   const key = dateToKey(date);
-  const [record, setRecord] = usePersistState(key, null);
+  const [record, setRecord] = recordRef.current; //usePersistState(key, null);
 
   const [inputText, setInputText] = useState(record ? record.text : undefined);
   const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);

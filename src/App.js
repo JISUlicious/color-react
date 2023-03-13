@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./styles/App.scss";
 import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
@@ -9,12 +9,13 @@ function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  
+  const recordRef = useRef([null,null]);
   return (
     <div className="app">
       { !!selectedDate && (<Write 
         date={selectedDate}
-        hide={() => {setSelectedDate(null)}} />)}
+        hide={() => {setSelectedDate(null)}}
+        recordRef={recordRef} />)}
       <Menu 
         isMenuVisible={isMenuVisible}
         hide={() => setIsMenuVisible(false)} />
@@ -24,7 +25,8 @@ function App() {
         setYear={setCalendarYear} />
       <Calendar 
         year={calendarYear}
-        setDate={setSelectedDate} />
+        setDate={setSelectedDate} 
+        ref={recordRef} />
     </div>
   );
 }
