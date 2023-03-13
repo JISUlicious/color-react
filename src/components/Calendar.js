@@ -28,13 +28,14 @@ export const Calendar = ({ year, setDate }) => {
           }`}
           disabled={disabled}
           indices={indices}
-          onClick={() => {
-            setDate({
-              year: year,
-              month: colCount,
-              day: rowCount,
-            });
-          }}
+          setDate={setDate}
+          // onClick={() => {
+          //   setDate({
+          //     year: year,
+          //     month: colCount,
+          //     day: rowCount,
+          //   });
+          // }}
         >
           {colCount === 0 && rowCount > 0 && rowCount}
           {rowCount === 0 && colCount > 0 && monthNames[colCount - 1]}

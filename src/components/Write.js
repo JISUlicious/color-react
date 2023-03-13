@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { monthNames, referenceColors } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
 import { usePersistState } from "../hooks/usePersistState";
+import { RecordContext } from "../App";
 
 export const Write = ({ date, hide}) => {
   const monthName = monthNames[date.month-1];
 
   const key = dateToKey(date);
-  const [record, setRecord] = usePersistState(key, null);
+  // const [record, setRecord] = usePersistState(key, null);
+  const [record, setRecord] = useContext(RecordContext);
+  
 
   const [inputText, setInputText] = useState(record ? record.text : undefined);
   const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
@@ -22,6 +25,7 @@ export const Write = ({ date, hide}) => {
     event.preventDefault();
     console.log("submit", key, inputText, colorIndex);
     setRecord({...record, text: inputText, color: colorIndex});
+    
     hide();
   };
 
