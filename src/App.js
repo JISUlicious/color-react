@@ -5,7 +5,7 @@ import { Calendar } from "./components/Calendar";
 import { Write } from "./components/Write";
 import { Menu } from "./components/Menu";
 
-export const RecordContext = createContext([null, null]);
+export const RecordContext = createContext(null);
 
 function App() {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
@@ -14,12 +14,11 @@ function App() {
   const [contextRecord, setContextRecord] = useState(null);
   
   return (
-    <RecordContext.Provider value={contextRecord}>
+    <RecordContext.Provider value={[contextRecord, setContextRecord]}>
       <div className="app">
         { !!selectedDate && (<Write 
           date={selectedDate}
-          hide={() => {setSelectedDate(null)}}
-          setContext={setContextRecord} />)}
+          hide={() => {setSelectedDate(null)}} />)}
         <Menu 
           isMenuVisible={isMenuVisible}
           hide={() => setIsMenuVisible(false)} />
@@ -29,8 +28,7 @@ function App() {
           setYear={setCalendarYear} />
         <Calendar 
           year={calendarYear}
-          setDate={setSelectedDate}
-          setContext={setContextRecord} />
+          setDate={setSelectedDate} />
       </div>
     </RecordContext.Provider>
   );

@@ -3,11 +3,10 @@ import { monthNames, referenceColors } from "../params";
 import "../styles/Write.scss";
 import { RecordContext } from "../App";
 
-export const Write = ({ date, hide, setContext }) => {
+export const Write = ({ date, hide }) => {
   const monthName = monthNames[date.month-1];
 
-  const [record, setRecord] = useContext(RecordContext);
-  
+  const [[record, setRecord], setContext] = useContext(RecordContext);
 
   const [inputText, setInputText] = useState(record ? record.text : undefined);
   const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
