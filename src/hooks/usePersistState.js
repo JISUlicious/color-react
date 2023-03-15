@@ -1,36 +1,21 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getItem, setItem } from "../functions/storage"; 
-import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender"; // useEffect 대체해서 사용하기
-// import { useIsRenderedBefore } from "./useIsRenderedBefore"; // 첫 렌더 스킵하는 함수 리턴시키기
+import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender";
 
-export const usePersistState = (key) => {
-  
-  const isRendered = useRef({});
-  
-  const storedValue = getItem(key, {});
-  const [value, setValue] = useState(storedValue);
-  
-  // 첫 렌더 스킵하는 함수 리턴
-  // const isRenderedBefore = useIsRenderedBefore();
-  // useEffect(() => isRenderedBefore(isRendered,()=>{
-  //   setItem(key, JSON.stringify(value));
-  // }, "setItem"), [value]);
+export const usePersistState = (key, defaultValue) => {
 
-  // useEffect(() => isRenderedBefore(isRendered, ()=>{
-  //   const storedValue = getItem(key);
-  //   setValue(storedValue);
-  // }, "getStoredValue"), [key]);
-  
+  const [value, setValue] = useState(defaultValue);
 
-  // useEffect 대체 하는 방법
-  useEffectSkipInitialRender(isRendered, ()=>{
-    setItem(key, JSON.stringify(value));
-  }, "setItem", [value]);
+  useEffectSkipInitialRender(()=>{
+    console.log("setItem", key, value);
+    setItem(key, value).catch(error => console.log(error));
+  }, [value]);
 
-  useEffectSkipInitialRender(isRendered, ()=>{
-    const storedValue = getItem(key);
-    setValue(storedValue);
-  }, "getStoredValue", [key]);
+  useEffect(()=>{
+    getItem(key)
+    .then(res => setValue(res))
+    .catch(error => console.log(error));
+  }, [key]);
 
   return [value, setValue];
 };
