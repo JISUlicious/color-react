@@ -1,6 +1,5 @@
 import {useState, useEffect, useMemo} from "react";
-import { getItem, setItem } from "../functions/storage"; 
-import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender";
+import { getItem, setItem } from "../functions/storage";
 
 export const usePersistState = (key, defaultValue) => {
 

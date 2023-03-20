@@ -1,31 +1,24 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import "./styles/App.scss";
 import { Header } from "./components/Header";
 import { Calendar } from "./components/Calendar";
 import { Write } from "./components/Write";
 import { Menu } from "./components/Menu";
+import {CalendarApp, CalendarContext} from "./contexts/CalenderContext";
 
 function App() {
-  const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  
+
+  const calendarState = useContext(CalendarContext);
+  console.log(calendarState);
   return (
-    <div className="app">
-      { !!selectedDate && (<Write 
-        date={selectedDate}
-        hide={() => {setSelectedDate(null)}} />)}
-      <Menu 
-        isMenuVisible={isMenuVisible}
-        hide={() => setIsMenuVisible(false)} />
-      <Header
-        showMenu={setIsMenuVisible}
-        year={calendarYear}
-        setYear={setCalendarYear} />
-      <Calendar 
-        year={calendarYear}
-        setDate={setSelectedDate} />
-    </div>
+    <CalendarApp>
+      <div className="app">
+        {/*{ !!calendarState.date && <Write />}*/}
+        <Menu />
+        <Header />
+        <Calendar />
+      </div>
+    </CalendarApp>
   );
 }
 
