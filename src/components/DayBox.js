@@ -4,7 +4,8 @@ import { referenceColors } from "../params";
 
 export const DayBox = ({date, gridArea, disabled, indices, onClick, children}) => {
   const key = dateToKey(date);
-  const record = usePersistState(key, null);
+  const [record,] = usePersistState(key, null);
+
   return <div
     className={`day-box ${disabled ? "disabled" : ""}`}
     style={{
@@ -13,7 +14,7 @@ export const DayBox = ({date, gridArea, disabled, indices, onClick, children}) =
         disabled ? "dimgrey" 
         : record ? referenceColors[record.color] 
         : null}`,
-      border: record > 0 ? "1px solid black" : null
+      border: record && "1px solid black"
     }}
     onClick={disabled || indices ? null : onClick}
   >

@@ -1,19 +1,25 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useMemo} from "react";
 import { getItem, setItem } from "../functions/storage"; 
 import { useEffectSkipInitialRender } from "./useEffectSkipInitialRender";
 
 export const usePersistState = (key, defaultValue) => {
 
-  const [value, setValue] = useState(defaultValue);
-
-  useEffectSkipInitialRender(()=>{
-    console.log("setItem", key, value);
+  const [value, _setValue] = useState(defaultValue);
+  const channel = useMemo(() => {
+    const channel = new BroadcastChannel(key);
+    channel.onmessage = (event) => {
+      _setValue(event.data);
+    };
+    return channel;}, [key]);
+  const setValue = (value) => {
+    _setValue(value);
     setItem(key, value).catch(error => console.log(error));
-  }, [value]);
+    channel.postMessage(value);
+  };
 
   useEffect(()=>{
     getItem(key)
-    .then(res => setValue(res))
+    .then(res => _setValue(res))
     .catch(error => console.log(error));
   }, [key]);
 
