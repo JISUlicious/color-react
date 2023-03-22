@@ -1,28 +1,29 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
-import {useContext} from "react";
-import {CalendarContext, CalendarContextDispatcher} from "../contexts/CalenderContext";
+import {
+  useCalendarContext,
+  useCalendarDispatcherContext
+} from "../contexts/CalenderContext";
 
 export const Menu = () => {
-  const calendarState = useContext(CalendarContext);
-  const calendarStateDispatcher = useContext(CalendarContextDispatcher);
+  const calendarState = useCalendarContext();
+  const calendarStateDispatcher = useCalendarDispatcherContext();
+
+  const hide = () => calendarStateDispatcher({
+    type: "hideMenu",
+    showMenu: false
+  });
   return (
     <dialog
       open={calendarState.showMenu}
       className="backdrop"
-      onClick={() => calendarStateDispatcher({
-        type: "hideMenu",
-        showMenu: false
-      })}
+      onClick={() => hide()}
     >
-      <div 
+      <div
         className="menu"
         onClick={(event) => event.stopPropagation()}
       >      
-        <button onClick={() => calendarStateDispatcher({
-          type: "hideMenu",
-          showMenu: false
-        })}>close</button>
+        <button onClick={() => hide()}>close</button>
         <ul>
           <li>dialog</li>
           <li>create new calendar</li>

@@ -1,24 +1,53 @@
-import {createContext, useReducer} from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { getItem, setItem } from "../functions/storage";
+
+const initialState = {
+  year: new Date().getFullYear(),
+  date: null,
+  calendarRecord: null,
+  showMenu: false
+};
 
 export const CalendarContext = createContext(null);
 
-export const CalendarContextDispatcher = createContext(null);
+export const CalendarDispatcherContext = createContext(null);
 
-export const CalendarApp = (children) => {
-  const [state, dispatcher] = useReducer(calendarReducer, initialState);
+
+export const CalendarApp = ({children}) => {
+  const [state, dispatcher] = useReducer(
+    calendarReducer,
+    initialState
+  );
+  useEffect(() => {
+    getItem(String(state.year), {}).then(res => {
+      dispatcher({
+        type: "setRecord",
+        calendarRecord: res
+      });
+    }).catch(error => console.log(error));
+  }, [state.year]);
+  
   return (
     <CalendarContext.Provider value={state}>
-      <CalendarContextDispatcher.Provider value={dispatcher}>
+      <CalendarDispatcherContext.Provider value={dispatcher}>
         {children}
-      </CalendarContextDispatcher.Provider>
+      </CalendarDispatcherContext.Provider>
     </CalendarContext.Provider>
   )
 };
 
 const calendarReducer = (calendarState, action) => {
   switch (action.type) {
-    case "addRecord":{
-      return {...calendarState, record: action.record};
+    case "setRecord": {
+      return {...calendarState, calendarRecord: action.calendarRecord};
+    }
+    case "addRecord": {
+      const yearKey = action.newRecord.year;
+      const dateKey = action.newRecord.dateKey;
+      const newValue = {...calendarState.calendarRecord, [dateKey]: action.newRecord.value}
+      
+      setItem(yearKey, newValue).catch(error => console.log(error));
+      return {...calendarState, calendarRecord: newValue};
     }
     case "setDate": {
       return {...calendarState, date: action.date};
@@ -43,9 +72,6 @@ const calendarReducer = (calendarState, action) => {
   }
 };
 
-const initialState = {
-  year: new Date().getFullYear(),
-  date: null,
-  record: null,
-  showMenu: false
-};
+export const useCalendarContext = () => useContext(CalendarContext);
+export const useCalendarDispatcherContext = () => useContext(CalendarDispatcherContext);
+

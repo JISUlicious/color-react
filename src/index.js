@@ -6,6 +6,8 @@ import {CalendarApp} from "./contexts/CalenderContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <CalendarApp>
     <App />
+  </CalendarApp>
 );
 

@@ -2,16 +2,25 @@ import { useState } from "react";
 import { monthNames, referenceColors } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
-import { usePersistState } from "../hooks/usePersistState";
+import { useCalendarContext, useCalendarDispatcherContext } from "../contexts/CalenderContext";
 
-export const Write = ({ date, hide}) => {
+export const Write = () => {
+  
+  const calendarState = useCalendarContext();
+  const calendarStateDispatcher = useCalendarDispatcherContext();
+  
+  const date = calendarState.date;
+  const dateKey = dateToKey(date);
+  const record = calendarState.calendarRecord;
+  const hide = () => {calendarStateDispatcher({
+    type: "setDate",
+    date: null
+  })};
+  
   const monthName = monthNames[date.month-1];
-
-  const key = dateToKey(date);
-  const [record, setRecord] = usePersistState(key, null);
-
-  const [inputText, setInputText] = useState(record ? record.text : undefined);
-  const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
+  
+  const [inputText, setInputText] = useState(record[dateKey] ? record[dateKey].text : undefined);
+  const [colorIndex, setColorIndex] = useState(record[dateKey] ? record[dateKey].color : undefined);
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };
@@ -20,26 +29,30 @@ export const Write = ({ date, hide}) => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    console.log("submit", key, inputText, colorIndex);
-    setRecord({...record, text: inputText, color: colorIndex});
+    // setRecord({...record, text: inputText, color: colorIndex});
+    calendarStateDispatcher({
+      type: "addRecord",
+      newRecord: {
+        year:""+calendarState.year,
+        dateKey:dateKey,
+        value: {text: inputText, color: colorIndex}
+      }
+    });
     hide();
+    
   };
 
   return (
     <div 
       className="backdrop"
-      onClick={() => {
-        hide();
-      }} 
+      onClick={() => hide()}
     >
       <div 
         className="write"
         onClick={(event) => event.stopPropagation()}
       >
         <button
-          onClick={() => {
-            hide();
-          }}
+          onClick={() => hide()}
         >
           close
         </button>

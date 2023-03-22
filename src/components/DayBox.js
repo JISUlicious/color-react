@@ -1,22 +1,34 @@
 import { dateToKey } from "../functions/dateToKey";
-import { usePersistState } from "../hooks/usePersistState";
 import { referenceColors } from "../params";
+import {
+  useCalendarContext,
+  useCalendarDispatcherContext
+} from "../contexts/CalenderContext";
 
-export const DayBox = ({date, gridArea, disabled, indices, onClick, children}) => {
-  const key = dateToKey(date);
-  const [record,] = usePersistState(key, null);
+export const DayBox = ({date, gridArea, disabled, indices, children}) => {
+  
+  const dateKey = dateToKey(date);
+  
+  const calendarState = useCalendarContext();
+  const calendarStateDispatcher = useCalendarDispatcherContext();
+  const record = calendarState.calendarRecord ? calendarState.calendarRecord : {};
 
   return <div
     className={`day-box ${disabled ? "disabled" : ""}`}
     style={{
       gridArea,
-      backgroundColor: `${
-        disabled ? "dimgrey" 
-        : record ? referenceColors[record.color] 
-        : null}`,
-      border: record && "1px solid black"
+      backgroundColor:
+        disabled ? "dimgrey"
+        : record[dateKey] ? referenceColors[record[dateKey].color]
+        : null,
+      border: record[dateKey] && "1px solid black"
     }}
-    onClick={disabled || indices ? null : onClick}
+    onClick={disabled || indices ? null : () => {
+      calendarStateDispatcher({
+        type: "setDate",
+        date: date
+      });
+    }}
   >
     {children}
   </div>

@@ -3,12 +3,15 @@ Header component
 contains yearNavButtons, year, menuButton
 */
 import { MdMenu, MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
-import {useContext} from "react";
-import {CalendarContext, CalendarContextDispatcher} from "../contexts/CalenderContext";
+import {
+  useCalendarContext,
+  useCalendarDispatcherContext
+} from "../contexts/CalenderContext";
 
 export const Header = () => {
-  const calendarState = useContext(CalendarContext);
-  const calendarStateDispatcher = useContext(CalendarContextDispatcher);
+  const calendarState = useCalendarContext();
+  const calendarStateDispatcher = useCalendarDispatcherContext();
+  
   const year = calendarState.year;
   return (
     <div className="header">
