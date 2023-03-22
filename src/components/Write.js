@@ -29,7 +29,6 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    // setRecord({...record, text: inputText, color: colorIndex});
     calendarStateDispatcher({
       type: "addRecord",
       newRecord: {
