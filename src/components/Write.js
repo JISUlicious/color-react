@@ -35,7 +35,7 @@ export const Write = () => {
     event.preventDefault();
     calendarStateDispatch(actionCreator(
       actionTypes.addRecord,
-{
+      {
         year: "" + year,
         dateKey: dateKey,
         value: { text: inputText, color: colorIndex }
