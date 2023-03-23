@@ -12,21 +12,21 @@ const numRows = 32; // num max days in a month + month index row
 
 export const Calendar = () => {
   
-  const calendarState = useCalendarContext();
+  const {year} = useCalendarContext();
   
   const boxes = [];
   for (let colCount = 0; colCount < numColumns; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
-      const daysInMonth = new Date(calendarState.year, colCount, 0).getDate();
-      const date = {year:calendarState.year, month:colCount, day:rowCount};
-      const key = dateToKey(date);
+      const daysInMonth = new Date(year, colCount, 0).getDate();
+      const boxDate = {month:colCount, day:rowCount};
+      const key = dateToKey(boxDate);
 
       const disabled = rowCount > daysInMonth;
       const indices = colCount === 0 || rowCount === 0;
       const box = (
         <DayBox
           key={key}
-          date={date}
+          date={boxDate}
           gridArea={`${rowCount + 1}/${colCount + 1}/${rowCount + 2}/${
             colCount + 2
           }`}

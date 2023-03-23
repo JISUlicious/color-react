@@ -1,21 +1,22 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
 import {
+  actionCreator, actionTypes,
   useCalendarContext,
-  useCalendarDispatcherContext
+  useCalendarDispatchContext
 } from "../contexts/CalenderContext";
 
 export const Menu = () => {
-  const calendarState = useCalendarContext();
-  const calendarStateDispatcher = useCalendarDispatcherContext();
+  const {showMenu} = useCalendarContext();
+  const calendarStateDispatch = useCalendarDispatchContext();
 
-  const hide = () => calendarStateDispatcher({
-    type: "hideMenu",
-    showMenu: false
-  });
+  const hide = () => calendarStateDispatch(actionCreator(
+    actionTypes.hideMenu,
+    {showMenu: false}
+  ));
   return (
     <dialog
-      open={calendarState.showMenu}
+      open={showMenu}
       className="backdrop"
       onClick={() => hide()}
     >
@@ -34,4 +35,4 @@ export const Menu = () => {
       </div>
     </dialog>
   )
-}
+};

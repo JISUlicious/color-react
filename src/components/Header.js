@@ -5,35 +5,36 @@ contains yearNavButtons, year, menuButton
 import { MdMenu, MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 import {
   useCalendarContext,
-  useCalendarDispatcherContext
+  useCalendarDispatchContext,
+  actionCreator,
+  actionTypes
 } from "../contexts/CalenderContext";
 
 export const Header = () => {
-  const calendarState = useCalendarContext();
-  const calendarStateDispatcher = useCalendarDispatcherContext();
+  const {year} = useCalendarContext();
+  const calendarStateDispatch = useCalendarDispatchContext();
   
-  const year = calendarState.year;
   return (
     <div className="header">
       <button
-        onClick={() => calendarStateDispatcher({
-          type: "showMenu",
-          showMenu: true
-        })}
+        onClick={() => calendarStateDispatch(actionCreator(
+          actionTypes.showMenu,
+          {showMenu: true}
+        ))}
         className="side-button menu-button"
       >
         <MdMenu />
       </button>
       <div className="year-buttons">
-        <button className="year-nav-button" onClick={() => calendarStateDispatcher({
-          type: "decYear"
-        })}>
+        <button className="year-nav-button" onClick={() => calendarStateDispatch(actionCreator(
+          actionTypes.setYear, -1
+        ))}>
           <MdKeyboardDoubleArrowLeft />
         </button>
         <span>{year}</span>
-        <button className="year-nav-button" onClick={() => calendarStateDispatcher({
-          type: "incYear"
-        })}>
+        <button className="year-nav-button" onClick={() => calendarStateDispatch(actionCreator(
+          actionTypes.setYear, 1
+        ))}>
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>

@@ -2,20 +2,26 @@ import { useState } from "react";
 import { monthNames, referenceColors } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
-import { useCalendarContext, useCalendarDispatcherContext } from "../contexts/CalenderContext";
+import {
+  actionCreator,
+  actionTypes,
+  useCalendarContext,
+  useCalendarDispatchContext
+} from "../contexts/CalenderContext";
 
 export const Write = () => {
   
-  const calendarState = useCalendarContext();
-  const calendarStateDispatcher = useCalendarDispatcherContext();
+  const {calendarRecord, date, year} = useCalendarContext();
+  const calendarStateDispatch = useCalendarDispatchContext();
   
-  const date = calendarState.date;
   const dateKey = dateToKey(date);
-  const record = calendarState.calendarRecord;
-  const hide = () => {calendarStateDispatcher({
-    type: "setDate",
+  const record = calendarRecord;
+  const hide = () => {calendarStateDispatch(actionCreator(
+    actionTypes.setDate,
+    {
     date: null
-  })};
+    }))
+  };
   
   const monthName = monthNames[date.month-1];
   
@@ -29,16 +35,14 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    calendarStateDispatcher({
-      type: "addRecord",
-      newRecord: {
-        year:""+calendarState.year,
-        dateKey:dateKey,
-        value: {text: inputText, color: colorIndex}
-      }
-    });
+    calendarStateDispatch(actionCreator(
+      actionTypes.addRecord,
+{
+        year: "" + year,
+        dateKey: dateKey,
+        value: { text: inputText, color: colorIndex }
+      }));
     hide();
-    
   };
 
   return (

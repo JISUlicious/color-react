@@ -7,11 +7,11 @@ import { useCalendarContext } from "./contexts/CalenderContext";
 
 function App() {
   
-  const calendarState = useCalendarContext();
+  const {date} = useCalendarContext();
 
   return (
     <div className="app">
-      { calendarState.date && <Write /> }
+      { date && <Write /> }
       <Menu />
       <Header />
       <Calendar />
