@@ -18,9 +18,7 @@ export const Write = () => {
   const record = calendarRecord;
   const hide = () => {calendarStateDispatch(actionCreator(
     actionTypes.setDate,
-    {
-    date: null
-    }))
+    {date: null}))
   };
   
   const monthName = monthNames[date.month-1];
