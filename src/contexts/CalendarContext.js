@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { getItem, setItem } from "../functions/storage";
+import { dateToKey } from "../functions/dateToKey";
 
 const initialState = {
   year: new Date().getFullYear(),
   date: null,
-  calendarRecord: null,
-  showMenu: false
+  records: null
 };
 
 export const CalendarContext = createContext(null);
@@ -15,20 +15,18 @@ export const CalendarDispatchContext = createContext(null);
 export const useCalendarContext = () => useContext(CalendarContext);
 export const useCalendarDispatchContext = () => useContext(CalendarDispatchContext);
 
-export const actionCreator = (type, data = null) => {
-  return {
-    type: type,
-    data: data
-  };
+export const actionCreator = {
+  setRecord: (records) => ({type: actionTypes.setRecord, records}),
+  addRecord: (date, newRecord) => ({type: actionTypes.addRecord, date, newRecord}),
+  setDate: (date) => ({type: actionTypes.setDate, date}),
+  setYear: (value) => ({type: actionTypes.setYear, value})
 };
 
 export const actionTypes = {
   setRecord: "setRecord",
   addRecord: "addRecord",
   setDate: "setDate",
-  setYear: "setYear",
-  showMenu: "showMenu",
-  hideMenu: "hideMenu"
+  setYear: "setYear"
 };
 
 const calendarReducer = (calendarState, action) => {
@@ -36,30 +34,25 @@ const calendarReducer = (calendarState, action) => {
     case actionTypes.setRecord: {
       return {
         ...calendarState,
-        calendarRecord: action.data.calendarRecord};
+        records: action.records
+      };
     }
     case actionTypes.addRecord: {
-      const yearKey = action.data.year;
-      const dateKey = action.data.dateKey;
+      const yearKey = String(action.date.year);
+      const dateKey = dateToKey(action.date);
       const newValue = {
-        ...calendarState.calendarRecord,
-        [dateKey]: action.data.value
+        ...calendarState.records,
+        [dateKey]: action.newRecord
       }
       setItem(yearKey, newValue).catch(error => console.log(error));
-      return {...calendarState, calendarRecord: newValue};
+      return {...calendarState, records: newValue};
     }
     case actionTypes.setDate: {
-      return {...calendarState, date: action.data.date};
+      return {...calendarState, date: action.date};
     }
     case actionTypes.setYear: {
-      const newYear = calendarState.year + action.data;
+      const newYear = calendarState.year + action.value;
       return {...calendarState, year: newYear};
-    }
-    case actionTypes.showMenu: {
-      return {...calendarState, showMenu: true};
-    }
-    case actionTypes.hideMenu: {
-      return {...calendarState, showMenu: false};
     }
     default: {
       return console.log("Invalid Action Type:", action.type);
@@ -75,10 +68,7 @@ export const CalendarApp = ({children}) => {
   useEffect(() => {
     getItem(String(state.year), {})
       .then(res => {
-        dispatch(actionCreator(
-          actionTypes.setRecord,
-          {calendarRecord: res}
-        ));
+        dispatch(actionCreator.setRecord(res));
       })
       .catch(error => console.log(error));
   }, [state.year]);

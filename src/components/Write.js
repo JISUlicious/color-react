@@ -4,27 +4,25 @@ import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
 import {
   actionCreator,
-  actionTypes,
   useCalendarContext,
   useCalendarDispatchContext
-} from "../contexts/CalenderContext";
+} from "../contexts/CalendarContext";
 
 export const Write = () => {
   
-  const {calendarRecord, date, year} = useCalendarContext();
+  const {records, date, year} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
   
   const dateKey = dateToKey(date);
-  const record = calendarRecord;
-  const hide = () => {calendarStateDispatch(actionCreator(
-    actionTypes.setDate,
-    {date: null}))
+  const record = records[dateKey] ? records[dateKey] : {};
+  const hide = () => {
+    calendarStateDispatch(actionCreator.setDate(null))
   };
   
   const monthName = monthNames[date.month-1];
   
-  const [inputText, setInputText] = useState(record[dateKey] ? record[dateKey].text : undefined);
-  const [colorIndex, setColorIndex] = useState(record[dateKey] ? record[dateKey].color : undefined);
+  const [inputText, setInputText] = useState(record ? record.text : undefined);
+  const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };
@@ -33,13 +31,7 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    calendarStateDispatch(actionCreator(
-      actionTypes.addRecord,
-      {
-        year: "" + year,
-        dateKey: dateKey,
-        value: { text: inputText, color: colorIndex }
-      }));
+    calendarStateDispatch(actionCreator.addRecord(date, {text: inputText, color: colorIndex}));
     hide();
   };
 
@@ -57,7 +49,7 @@ export const Write = () => {
         >
           close
         </button>
-        <h1>{`${date.day} ${monthName} ${date.year}`}</h1>
+        <h1>{`${date.day} ${monthName} ${year}`}</h1>
         {referenceColors.map((v,i) => {
           return (
             <button 

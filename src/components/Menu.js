@@ -1,22 +1,11 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
-import {
-  actionCreator, actionTypes,
-  useCalendarContext,
-  useCalendarDispatchContext
-} from "../contexts/CalenderContext";
 
-export const Menu = () => {
-  const {showMenu} = useCalendarContext();
-  const calendarStateDispatch = useCalendarDispatchContext();
-
-  const hide = () => calendarStateDispatch(actionCreator(
-    actionTypes.hideMenu,
-    {showMenu: false}
-  ));
+export const Menu = ({ visible, hide }) => {
+  
   return (
     <dialog
-      open={showMenu}
+      open={visible}
       className="backdrop"
       onClick={() => hide()}
     >

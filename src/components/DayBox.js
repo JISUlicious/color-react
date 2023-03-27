@@ -2,18 +2,17 @@ import { dateToKey } from "../functions/dateToKey";
 import { referenceColors } from "../params";
 import {
   actionCreator,
-  actionTypes,
   useCalendarContext,
   useCalendarDispatchContext
-} from "../contexts/CalenderContext";
+} from "../contexts/CalendarContext";
 
 export const DayBox = ({date, gridArea, disabled, indices, children}) => {
   
   const dateKey = dateToKey(date);
   
-  const {calendarRecord} = useCalendarContext();
+  const {records} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
-  const record = calendarRecord ? calendarRecord : {};
+  const record = records ? records : {};
 
   return <div
     className={`day-box ${disabled ? "disabled" : ""}`}
@@ -26,12 +25,10 @@ export const DayBox = ({date, gridArea, disabled, indices, children}) => {
       border: record[dateKey] && "1px solid black"
     }}
     onClick={disabled || indices ? null : () => {
-      calendarStateDispatch(actionCreator(
-        actionTypes.setDate,
-        {date: date}
-      ));
+      calendarStateDispatch(actionCreator.setDate(date));
     }}
   >
     {children}
   </div>
-}
+};
+

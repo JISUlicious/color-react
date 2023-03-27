@@ -6,35 +6,31 @@ import { MdMenu, MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'r
 import {
   useCalendarContext,
   useCalendarDispatchContext,
-  actionCreator,
-  actionTypes
-} from "../contexts/CalenderContext";
+  actionCreator
+} from "../contexts/CalendarContext";
 
-export const Header = () => {
+export const Header = ({showMenu}) => {
   const {year} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
   
   return (
     <div className="header">
       <button
-        onClick={() => calendarStateDispatch(actionCreator(
-          actionTypes.showMenu,
-          {showMenu: true}
-        ))}
+        onClick={() => {showMenu(true);}}
         className="side-button menu-button"
       >
         <MdMenu />
       </button>
       <div className="year-buttons">
-        <button className="year-nav-button" onClick={() => calendarStateDispatch(actionCreator(
-          actionTypes.setYear, -1
-        ))}>
+        <button
+          className="year-nav-button"
+          onClick={() => calendarStateDispatch(actionCreator.setYear(-1))}>
           <MdKeyboardDoubleArrowLeft />
         </button>
         <span>{year}</span>
-        <button className="year-nav-button" onClick={() => calendarStateDispatch(actionCreator(
-          actionTypes.setYear, 1
-        ))}>
+        <button
+          className="year-nav-button"
+          onClick={() => calendarStateDispatch(actionCreator.setYear(1))}>
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>
