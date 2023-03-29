@@ -1,7 +1,17 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
-
-export const Menu = ({ visible, hide }) => {
+import { authActionCreator, useAuthContext, useAuthDispatchContext } from "../contexts/AuthContext";
+import { signOut } from "firebase/auth";
+export const Menu = ({visible, hide}) => {
+  
+  const { auth } = useAuthContext();
+  const authDispatch = useAuthDispatchContext();
+  const onSignOut = () => {
+    signOut(auth).then(() => {
+      authDispatch(authActionCreator.signOut(auth));
+    });
+    hide();
+  };
   
   return (
     <dialog
@@ -15,11 +25,8 @@ export const Menu = ({ visible, hide }) => {
       >      
         <button onClick={() => hide()}>close</button>
         <ul>
-          <li>dialog</li>
-          <li>create new calendar</li>
-          <li>select calendar</li>
-          <li>set ref colors - color picker</li>
-          <li>logout</li>
+          <li><button>manage calendar(선택,설정)</button></li>
+          <li onClick={onSignOut}><button>Sign Out</button></li>
         </ul>
       </div>
     </dialog>

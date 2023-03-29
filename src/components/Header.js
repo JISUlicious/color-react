@@ -24,13 +24,17 @@ export const Header = ({showMenu}) => {
       <div className="year-buttons">
         <button
           className="year-nav-button"
-          onClick={() => calendarStateDispatch(actionCreator.setYear(-1))}>
+          onClick={() => {
+            calendarStateDispatch(actionCreator.setYear(-1));
+          }}>
           <MdKeyboardDoubleArrowLeft />
         </button>
         <span>{year}</span>
         <button
           className="year-nav-button"
-          onClick={() => calendarStateDispatch(actionCreator.setYear(1))}>
+          onClick={() => {
+            calendarStateDispatch(actionCreator.setYear(1));
+          }}>
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>

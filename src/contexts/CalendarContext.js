@@ -79,5 +79,5 @@ export const CalendarApp = ({children}) => {
         {children}
       </CalendarDispatchContext.Provider>
     </CalendarContext.Provider>
-  )
+  );
 };

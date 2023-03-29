@@ -1,7 +1,7 @@
 
 
 body {
-    margin: 0px;
+    margin: 0;
     height: 100vh;
 }
 
@@ -59,7 +59,7 @@ body {
 
 .hidden {
     visibility: hidden;
-    height: 0px;
+    height: 0;
 }
 
 .backdrop {
@@ -67,4 +67,11 @@ body {
     height: 100%;
     width: 100%;
     backdrop-filter: blur(2px);
+}
+
+.sign-in {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: white;
 }

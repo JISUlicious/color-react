@@ -16,7 +16,7 @@ export const Write = () => {
   const dateKey = dateToKey(date);
   const record = records[dateKey] ? records[dateKey] : {};
   const hide = () => {
-    calendarStateDispatch(actionCreator.setDate(null))
+    calendarStateDispatch(actionCreator.setDate(null));
   };
   
   const monthName = monthNames[date.month-1];
@@ -31,7 +31,12 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    calendarStateDispatch(actionCreator.addRecord(date, {text: inputText, color: colorIndex}));
+    calendarStateDispatch(
+      actionCreator.addRecord(
+        date,
+        {text: inputText, color: colorIndex}
+      )
+    );
     hide();
   };
 

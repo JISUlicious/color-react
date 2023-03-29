@@ -35,7 +35,13 @@ const DayBoxContainer = (date, records, dispatch) => {
     : day === 0 && month > 0 ? monthNames[month - 1]
       : null;
   
-  return (<DayBox key={key} className={className} style={style} onClick={onClick} content={content}/>);
+  return (<DayBox
+    key={key}
+    className={className}
+    style={style}
+    onClick={onClick}
+    content={content}
+  />);
 };
 
 export const Calendar = () => {

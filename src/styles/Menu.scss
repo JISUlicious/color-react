@@ -12,3 +12,14 @@
 dialog {
     background-color: transparent;
 }
+
+ul {
+    button {
+        all: unset;
+    }
+    li {
+        :hover {
+            font-weight: bold;
+        }
+    }
+}
