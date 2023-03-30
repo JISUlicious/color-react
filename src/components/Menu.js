@@ -1,16 +1,19 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
 import { authActionCreator, useAuthContext, useAuthDispatchContext } from "../contexts/AuthContext";
-import { signOut } from "firebase/auth";
+import { signOutApp } from "../functions/auth";
+
 export const Menu = ({visible, hide}) => {
   
   const { auth } = useAuthContext();
   const authDispatch = useAuthDispatchContext();
   const onSignOut = () => {
-    signOut(auth).then(() => {
+    signOutApp(auth).then(() => {
       authDispatch(authActionCreator.signOut(auth));
+      hide();
+    }).catch((error) => {
+      console.log(error);
     });
-    hide();
   };
   
   return (

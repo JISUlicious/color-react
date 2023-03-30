@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { monthNames, referenceColors } from "../params";
+import { monthNames } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
 import {
@@ -7,12 +7,13 @@ import {
   useCalendarContext,
   useCalendarDispatchContext
 } from "../contexts/CalendarContext";
+import { useAuthContext } from "../contexts/AuthContext";
 
 export const Write = () => {
   
-  const {records, date, year} = useCalendarContext();
+  const {user} = useAuthContext();
+  const {calendarName, records, date, year, colors} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
-  
   const dateKey = dateToKey(date);
   const record = records[dateKey] ? records[dateKey] : {};
   const hide = () => {
@@ -31,10 +32,18 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
+    console.log(date);
     calendarStateDispatch(
       actionCreator.addRecord(
+        user,
         date,
-        {text: inputText, color: colorIndex}
+        calendarName,
+        {
+          [dateKey]: {
+            text: inputText,
+            color: colorIndex
+          }
+        }
       )
     );
     hide();
@@ -55,7 +64,7 @@ export const Write = () => {
           close
         </button>
         <h1>{`${date.day} ${monthName} ${year}`}</h1>
-        {referenceColors.map((v,i) => {
+        {colors.map((v,i) => {
           return (
             <button 
               key={i}
@@ -67,7 +76,7 @@ export const Write = () => {
         })}
         <form onSubmit={onSubmitText}>
         <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
-        <button style={{backgroundColor:referenceColors[colorIndex]}} type="submit">submit</button>
+        <button style={{backgroundColor:colors[colorIndex]}} type="submit">submit</button>
         </form>
       </div>
     </div>

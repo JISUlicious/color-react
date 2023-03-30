@@ -1,7 +1,7 @@
 import "../styles/App.scss";
 import { authActionCreator, useAuthContext, useAuthDispatchContext } from "../contexts/AuthContext";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInEmail } from "../functions/auth";
 
 export const Auth = () => {
   
@@ -20,9 +20,12 @@ export const Auth = () => {
   };
   const onSignIn = (event) => {
     event.preventDefault();
-    signInWithEmailAndPassword(auth, inputId, inputPw)
-      .then((user) => {
+    signInEmail(auth, inputId, inputPw)
+      .then(({ user }) => {
         authDispatch(authActionCreator.signIn(user.uid));
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 

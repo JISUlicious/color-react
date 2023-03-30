@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { app } from "../firebase/init";
+import { app } from "../functions/firebaseInit";
 import { createContext, useContext, useReducer } from "react";
 
 const auth = getAuth(app);

@@ -2,7 +2,7 @@
 creates Calendar component
 creates DayBox div with loop
 */
-import { monthNames, referenceColors } from "../params";
+import { monthNames } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import { DayBox } from "./DayBox";
 import { actionCreator, useCalendarContext, useCalendarDispatchContext } from "../contexts/CalendarContext";
@@ -10,7 +10,7 @@ import { actionCreator, useCalendarContext, useCalendarDispatchContext } from ".
 const numColumns = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-const DayBoxContainer = (date, records, dispatch) => {
+const DayBoxContainer = (date, records, dispatch, colors) => {
   const key = dateToKey(date);
   const {year, month, day} = date;
   const daysInMonth = new Date(year, month, 0).getDate();
@@ -21,7 +21,7 @@ const DayBoxContainer = (date, records, dispatch) => {
   // define style of DayBox
   const record = !records ? null : records[key] ? records[key] : null;
   const backgroundColor = disabled ? "dimgrey"
-    : record ? referenceColors[record.color]
+    : record ? colors[record.color]
       : null;
   const border = record && "1px solid black"
   const gridArea = `${day + 1}/${month + 1}/${day + 2}/${month + 2}`
@@ -46,14 +46,14 @@ const DayBoxContainer = (date, records, dispatch) => {
 
 export const Calendar = () => {
   
-  const {year, records} = useCalendarContext();
+  const {year, records, colors} = useCalendarContext();
   const dispatch = useCalendarDispatchContext();
   
   const boxes = [];
   for (let colCount = 0; colCount < numColumns; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
       const date = {year: year, month: colCount, day: rowCount};
-      const box = DayBoxContainer(date, records, dispatch);
+      const box = DayBoxContainer(date, records, dispatch, colors);
       boxes.push(box);
     }
   }

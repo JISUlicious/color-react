@@ -1,8 +1,12 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
-import { getItem, setItem } from "../functions/storage";
-import { dateToKey } from "../functions/dateToKey";
+import { createContext, useContext, useReducer } from "react";
+import { setItem } from "../functions/storage";
+import { useAuthContext } from "./AuthContext";
+import { useSetRecords } from "../hooks/useSetRecords";
+import { useSetCalendar } from "../hooks/useSetCalendar";
 
 const initialState = {
+  calendar: 0,
+  colors: null,
   year: new Date().getFullYear(),
   date: null,
   records: null
@@ -16,13 +20,24 @@ export const useCalendarContext = () => useContext(CalendarContext);
 export const useCalendarDispatchContext = () => useContext(CalendarDispatchContext);
 
 export const actionCreator = {
+  setCalendar: (calendarName) => ({type: actionTypes.setCalendar, calendarName}),
+  setColors: (colors) => ({type: actionTypes.setColors, colors}),
   setRecord: (records) => ({type: actionTypes.setRecord, records}),
-  addRecord: (date, newRecord) => ({type: actionTypes.addRecord, date, newRecord}),
+  addRecord: (user, date, calendarName, newRecord) => (
+    {
+      type: actionTypes.addRecord,
+      user,
+      date,
+      calendarName,
+      newRecord,
+    }),
   setDate: (date) => ({type: actionTypes.setDate, date}),
   setYear: (value) => ({type: actionTypes.setYear, value})
 };
 
 export const actionTypes = {
+  setCalendar: "setCalendar",
+  setColors: "setColors",
   setRecord: "setRecord",
   addRecord: "addRecord",
   setDate: "setDate",
@@ -31,6 +46,15 @@ export const actionTypes = {
 
 const calendarReducer = (calendarState, action) => {
   switch (action.type) {
+    case actionTypes.setCalendar: {
+      return {
+        ...calendarState,
+        calendarName: action.calendarName
+      };
+    }
+    case actionTypes.setColors: {
+      return {...calendarState, colors: action.colors};
+    }
     case actionTypes.setRecord: {
       return {
         ...calendarState,
@@ -38,14 +62,15 @@ const calendarReducer = (calendarState, action) => {
       };
     }
     case actionTypes.addRecord: {
-      const yearKey = String(action.date.year);
-      const dateKey = dateToKey(action.date);
-      const newValue = {
-        ...calendarState.records,
-        [dateKey]: action.newRecord
-      }
-      setItem(yearKey, newValue).catch(error => console.log(error));
-      return {...calendarState, records: newValue};
+      const key = `calendars/${action.user}/${action.calendarName}/${action.date.year}`
+      setItem(key, action.newRecord).catch(error => console.log(error));
+      return {
+        ...calendarState,
+        records: {
+          ...calendarState.records,
+          ...action.newRecord
+        }
+      };
     }
     case actionTypes.setDate: {
       return {...calendarState, date: action.date};
@@ -65,14 +90,12 @@ export const CalendarApp = ({children}) => {
     calendarReducer,
     initialState
   );
-  useEffect(() => {
-    getItem(String(state.year), {})
-      .then(res => {
-        dispatch(actionCreator.setRecord(res));
-      })
-      .catch(error => console.log(error));
-  }, [state.year]);
-
+  
+  const { user } = useAuthContext();
+  
+  useSetCalendar(user, dispatch);
+  useSetRecords(user, state, dispatch);
+  
   return (
     <CalendarContext.Provider value={state}>
       <CalendarDispatchContext.Provider value={dispatch}>
