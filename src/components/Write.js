@@ -32,7 +32,6 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    console.log(date);
     calendarStateDispatch(
       actionCreator.addRecord(
         user,
@@ -49,8 +48,7 @@ export const Write = () => {
     hide();
   };
 
-  return (
-    <div 
+  return (<div
       className="backdrop"
       onClick={() => hide()}
     >
@@ -75,10 +73,9 @@ export const Write = () => {
             >{i}</button>);
         })}
         <form onSubmit={onSubmitText}>
-        <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
-        <button style={{backgroundColor:colors[colorIndex]}} type="submit">submit</button>
+          <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
+          <button style={{backgroundColor:colors[colorIndex]}} type="submit">submit</button>
         </form>
       </div>
-    </div>
-  );
+    </div>);
 };

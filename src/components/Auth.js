@@ -4,11 +4,10 @@ import { useState } from "react";
 import { signInEmail } from "../functions/auth";
 
 export const Auth = () => {
-  
-  // context
-  const { auth } = useAuthContext();
+
+  const {auth} = useAuthContext();
   const authDispatch = useAuthDispatchContext();
-  // id pw state
+
   const [inputId, setInputId] = useState(null);
   const [inputPw, setInputPw] = useState(null);
   
@@ -29,21 +28,16 @@ export const Auth = () => {
       });
   };
 
-  return (
-    <div className="sign-in">
-      <h1>Color Calendar</h1>
-      
-      <form onSubmit={onSignIn}>
-        <label>
-          ID: <input onChange={onChangeId} placeholder="ID" />
-        </label>
-        <label>
-          PW: <input onChange={onChangePw} placeholder="PW" type="password" />
-        </label>
-        <button type="submit">Sign In</button>
-      </form>
-      
-    </div>
-
-  );
+  return (<div className="sign-in">
+    <h1>Color Calendar</h1>
+    <form onSubmit={onSignIn}>
+      <label>
+        ID: <input onChange={onChangeId} placeholder="ID" />
+      </label>
+      <label>
+        PW: <input onChange={onChangePw} placeholder="PW" type="password" />
+      </label>
+      <button type="submit">Sign In</button>
+    </form>
+  </div>);
 };

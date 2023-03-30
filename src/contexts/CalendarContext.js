@@ -5,7 +5,7 @@ import { useSetRecords } from "../hooks/useSetRecords";
 import { useSetCalendar } from "../hooks/useSetCalendar";
 
 const initialState = {
-  calendar: 0,
+  calendar: null,
   colors: null,
   year: new Date().getFullYear(),
   date: null,
@@ -62,7 +62,7 @@ const calendarReducer = (calendarState, action) => {
       };
     }
     case actionTypes.addRecord: {
-      const key = `calendars/${action.user}/${action.calendarName}/${action.date.year}`
+      const key = `calendars/${action.user}/${action.calendarName}/${action.date.year}`;
       setItem(key, action.newRecord).catch(error => console.log(error));
       return {
         ...calendarState,

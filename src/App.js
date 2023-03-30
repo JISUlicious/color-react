@@ -9,8 +9,7 @@ import { useAuthContext } from "./contexts/AuthContext";
 import { Auth } from "./components/Auth";
 
 function App() {
-  const { user } = useAuthContext();
-  console.log("currUser", user);
+  const {user} = useAuthContext();
   const {date} = useCalendarContext();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 

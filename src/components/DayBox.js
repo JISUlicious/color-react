@@ -8,6 +8,6 @@ export const DayBox = ({className, style, onClick, content}) => {
     onClick={onClick}
   >
     {content}
-  </div>
+  </div>;
 };
 
