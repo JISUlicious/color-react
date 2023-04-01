@@ -5,7 +5,7 @@ import { useSetRecords } from "../hooks/useSetRecords";
 import { useSetCalendar } from "../hooks/useSetCalendar";
 
 const initialState = {
-  calendar: null,
+  calendarName: null,
   colors: null,
   year: new Date().getFullYear(),
   date: null,

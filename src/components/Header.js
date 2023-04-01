@@ -10,9 +10,9 @@ import {
 } from "../contexts/CalendarContext";
 
 export const Header = ({showMenu}) => {
-  const {year} = useCalendarContext();
+  const {year, calendarName} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
-  
+
   return (
     <div className="header">
       <button
@@ -38,7 +38,7 @@ export const Header = ({showMenu}) => {
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>
-      <button className="side-button profile-button">My Calendar</button>
+      <button className="side-button profile-button">{calendarName}</button>
     </div>
   );
 };
