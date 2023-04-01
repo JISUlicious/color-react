@@ -2,14 +2,25 @@ import { useState } from "react";
 import { monthNames, referenceColors } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
-import { usePersistState } from "../hooks/usePersistState";
+import {
+  actionCreator,
+  useCalendarContext,
+  useCalendarDispatchContext
+} from "../contexts/CalendarContext";
 
-export const Write = ({ date, hide}) => {
+export const Write = () => {
+  
+  const {records, date, year} = useCalendarContext();
+  const calendarStateDispatch = useCalendarDispatchContext();
+  
+  const dateKey = dateToKey(date);
+  const record = records[dateKey] ? records[dateKey] : {};
+  const hide = () => {
+    calendarStateDispatch(actionCreator.setDate(null))
+  };
+  
   const monthName = monthNames[date.month-1];
-
-  const key = dateToKey(date);
-  const [record, setRecord] = usePersistState(key, null);
-
+  
   const [inputText, setInputText] = useState(record ? record.text : undefined);
   const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
   const onColorSetButtonClick = (i) => {
@@ -20,30 +31,25 @@ export const Write = ({ date, hide}) => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    console.log("submit", key, inputText, colorIndex);
-    setRecord({...record, text: inputText, color: colorIndex});
+    calendarStateDispatch(actionCreator.addRecord(date, {text: inputText, color: colorIndex}));
     hide();
   };
 
   return (
     <div 
       className="backdrop"
-      onClick={() => {
-        hide();
-      }} 
+      onClick={() => hide()}
     >
       <div 
         className="write"
         onClick={(event) => event.stopPropagation()}
       >
         <button
-          onClick={() => {
-            hide();
-          }}
+          onClick={() => hide()}
         >
           close
         </button>
-        <h1>{`${date.day} ${monthName} ${date.year}`}</h1>
+        <h1>{`${date.day} ${monthName} ${year}`}</h1>
         {referenceColors.map((v,i) => {
           return (
             <button 

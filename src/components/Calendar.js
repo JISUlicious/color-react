@@ -2,44 +2,54 @@
 creates Calendar component
 creates DayBox div with loop
 */
-import { monthNames } from "../params";
+import { monthNames, referenceColors } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import { DayBox } from "./DayBox";
+import { actionCreator, useCalendarContext, useCalendarDispatchContext } from "../contexts/CalendarContext";
 
-const numColunms = 13; // num months + day index col
+const numColumns = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-export const Calendar = ({ year, setDate }) => {
-  const boxes = [];
-  for (let colCount = 0; colCount < numColunms; colCount++) {
-    for (let rowCount = 0; rowCount < numRows; rowCount++) {
-      const daysInMonth = new Date(year, colCount, 0).getDate();
-      const date = {year, month:colCount, day:rowCount};
-      const key = dateToKey(date);
+const DayBoxContainer = ({date, record, dispatch}) => {
+  
+  const key = dateToKey(date);
+  const {year, month, day} = date;
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const disabled = day > daysInMonth;
+  const indices = month === 0 || day === 0;
+  
+  const className = ` ${disabled ? "disabled" : ""}${indices ? "index" : ""}`;
+  // define style of DayBox
+  const backgroundColor = disabled ? "dimgrey"
+    : record ? referenceColors[record.color]
+      : null;
+  const border = record && "1px solid black"
+  const gridArea = `${day + 1}/${month + 1}/${day + 2}/${month + 2}`
+  const style = {backgroundColor, border, gridArea};
+  // define action of DayBox
+  const onClick = disabled || indices ? null : () => {
+    dispatch(actionCreator.setDate(date));
+  };
+  // define content of DayBox
+  const content = month === 0 && day > 0 ? day
+    : day === 0 && month > 0 ? monthNames[month - 1]
+      : null;
+  
+  return (<DayBox key={key} className={className} style={style} onClick={onClick} content={content}/>);
+};
 
-      const disabled = rowCount > daysInMonth;
-      const indices = colCount === 0 || rowCount === 0;
-      const box = (
-        <DayBox
-          key={key}
-          date={date}
-          gridArea={`${rowCount + 1}/${colCount + 1}/${rowCount + 2}/${
-            colCount + 2
-          }`}
-          disabled={disabled}
-          indices={indices}
-          onClick={() => {
-            setDate({
-              year: year,
-              month: colCount,
-              day: rowCount,
-            });
-          }}
-        >
-          {colCount === 0 && rowCount > 0 && rowCount}
-          {rowCount === 0 && colCount > 0 && monthNames[colCount - 1]}
-        </DayBox>
-      );
+export const Calendar = () => {
+  
+  const {year, records} = useCalendarContext();
+  const dispatch = useCalendarDispatchContext();
+  
+  const boxes = [];
+  for (let colCount = 0; colCount < numColumns; colCount++) {
+    for (let rowCount = 0; rowCount < numRows; rowCount++) {
+      const date = {year: year, month: colCount, day: rowCount};
+      const key = dateToKey(date);
+      const record = !records ? null : records[key] ? records[key] : null;
+      const box = <DayBoxContainer {...{ key, date, record, dispatch }}/>;
       boxes.push(box);
     }
   }
@@ -48,10 +58,11 @@ export const Calendar = ({ year, setDate }) => {
     <div
       className="calendar"
       style={{
-        gridTemplate: `repeat(${numRows}, 1fr)/repeat(${numColunms}, 1fr)`,
+        gridTemplate: `repeat(${numRows}, 1fr)/repeat(${numColumns}, 1fr)`,
       }}
     >
       {boxes}
     </div>
   );
 };
+

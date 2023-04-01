@@ -11,8 +11,9 @@ export const getItem = (key, defaultValue = null) => localforage.getItem(key)
         if (res === null) {
             return defaultValue;
         } else {
-            return JSON.parse(res)
-        }});
+            return JSON.parse(res);
+        }
+    });
 
 /**
  * 
@@ -21,6 +22,5 @@ export const getItem = (key, defaultValue = null) => localforage.getItem(key)
  * @returns JSON string
  */
 export const setItem = (key, value) => {
-    console.log("on setItem", key, value);
-    return localforage.setItem(key, JSON.stringify(value));
+  return localforage.setItem(key, JSON.stringify(value));
 };

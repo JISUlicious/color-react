@@ -1,14 +1,15 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
 
-export const Menu = ({isMenuVisible, hide}) => {
+export const Menu = ({ visible, hide }) => {
+  
   return (
     <dialog
-      open={isMenuVisible} 
+      open={visible}
       className="backdrop"
       onClick={() => hide()}
     >
-      <div 
+      <div
         className="menu"
         onClick={(event) => event.stopPropagation()}
       >      
@@ -23,4 +24,4 @@ export const Menu = ({isMenuVisible, hide}) => {
       </div>
     </dialog>
   )
-}
+};
