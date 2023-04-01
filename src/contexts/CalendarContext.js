@@ -55,7 +55,8 @@ const calendarReducer = (calendarState, action) => {
       return {...calendarState, year: newYear};
     }
     default: {
-      return console.log("Invalid Action Type:", action.type);
+      console.log("Invalid Action Type:", action.type);
+      return calendarState;
     }
   }
 };

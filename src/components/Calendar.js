@@ -10,7 +10,8 @@ import { actionCreator, useCalendarContext, useCalendarDispatchContext } from ".
 const numColumns = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-const DayBoxContainer = (date, records, dispatch) => {
+const DayBoxContainer = ({date, record, dispatch}) => {
+  
   const key = dateToKey(date);
   const {year, month, day} = date;
   const daysInMonth = new Date(year, month, 0).getDate();
@@ -19,7 +20,6 @@ const DayBoxContainer = (date, records, dispatch) => {
   
   const className = ` ${disabled ? "disabled" : ""}${indices ? "index" : ""}`;
   // define style of DayBox
-  const record = !records ? null : records[key] ? records[key] : null;
   const backgroundColor = disabled ? "dimgrey"
     : record ? referenceColors[record.color]
       : null;
@@ -47,7 +47,9 @@ export const Calendar = () => {
   for (let colCount = 0; colCount < numColumns; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
       const date = {year: year, month: colCount, day: rowCount};
-      const box = DayBoxContainer(date, records, dispatch);
+      const key = dateToKey(date);
+      const record = !records ? null : records[key] ? records[key] : null;
+      const box = <DayBoxContainer {...{ key, date, record, dispatch }}/>;
       boxes.push(box);
     }
   }
