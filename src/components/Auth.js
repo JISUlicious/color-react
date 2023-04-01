@@ -1,12 +1,11 @@
 import "../styles/App.scss";
-import { authActionCreator, useAuthContext, useAuthDispatchContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import { useState } from "react";
 import { signInEmail } from "../functions/auth";
 
 export const Auth = () => {
 
   const {auth} = useAuthContext();
-  const authDispatch = useAuthDispatchContext();
 
   const [inputId, setInputId] = useState(null);
   const [inputPw, setInputPw] = useState(null);
@@ -20,9 +19,6 @@ export const Auth = () => {
   const onSignIn = (event) => {
     event.preventDefault();
     signInEmail(auth, inputId, inputPw)
-      .then(({ user }) => {
-        authDispatch(authActionCreator.signIn(user.uid));
-      })
       .catch((error) => {
         console.log(error);
       });

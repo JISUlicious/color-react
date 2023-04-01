@@ -51,6 +51,14 @@ export const AuthProvider = ({children}) => {
     authReducer, {auth, user: null}
   );
   
+  state.auth.onAuthStateChanged(function(user) {
+    if (user) {
+      dispatch(authActionCreator.signIn(user.uid));
+    } else {
+      dispatch(authActionCreator.signOut(auth));
+    }
+  });
+  
   return (
     <AuthContext.Provider value={state}>
       <AuthDispatchContext.Provider value={dispatch}>

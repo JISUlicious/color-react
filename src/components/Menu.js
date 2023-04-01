@@ -1,15 +1,13 @@
 import "../styles/Menu.scss"
 import "../styles/App.scss"
-import { authActionCreator, useAuthContext, useAuthDispatchContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext";
 import { signOutApp } from "../functions/auth";
 
 export const Menu = ({visible, hide}) => {
   
   const { auth } = useAuthContext();
-  const authDispatch = useAuthDispatchContext();
   const onSignOut = () => {
     signOutApp(auth).then(() => {
-      authDispatch(authActionCreator.signOut(auth));
       hide();
     }).catch((error) => {
       console.log(error);
