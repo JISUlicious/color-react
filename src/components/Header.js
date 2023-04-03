@@ -10,7 +10,7 @@ import {
 } from "../contexts/CalendarContext";
 
 export const Header = ({showMenu}) => {
-  const {year, calendarName} = useCalendarContext();
+  const {year, calendar} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
 
   return (
@@ -38,7 +38,7 @@ export const Header = ({showMenu}) => {
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>
-      <button className="side-button profile-button">{calendarName}</button>
+      <button className="side-button profile-button">{calendar ? calendar.calendarName : null}</button>
     </div>
   );
 };

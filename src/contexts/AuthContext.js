@@ -1,8 +1,6 @@
-import { getAuth } from "firebase/auth";
-import { app } from "../functions/firebaseInit";
-import { createContext, useContext, useReducer } from "react";
+import { auth } from "../functions/firebaseInit";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
-const auth = getAuth(app);
 
 const AuthContext = createContext(null);
 const AuthDispatchContext = createContext(null);
@@ -41,7 +39,8 @@ const authReducer = (authState, action) => {
       return {};
     }
     default: {
-      return console.log("Invalid Action Type:", action.type);
+      console.log("Invalid Action Type:", action.type);
+      return {...authState};
     }
   }
 };
@@ -51,13 +50,16 @@ export const AuthProvider = ({children}) => {
     authReducer, {auth, user: null}
   );
   
-  state.auth.onAuthStateChanged(function(user) {
-    if (user) {
-      dispatch(authActionCreator.signIn(user.uid));
-    } else {
-      dispatch(authActionCreator.signOut(auth));
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = state.auth.onAuthStateChanged(function (user) {
+      if (user) {
+        dispatch(authActionCreator.signIn(user));
+      } else {
+        dispatch(authActionCreator.signOut());
+      }
+    });
+    return () => unsubscribe();
+  }, []);
   
   return (
     <AuthContext.Provider value={state}>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { monthNames } from "../params";
-import { dateToKey } from "../functions/dateToKey";
 import "../styles/Write.scss";
 import {
   actionCreator,
@@ -8,22 +7,23 @@ import {
   useCalendarDispatchContext
 } from "../contexts/CalendarContext";
 import { useAuthContext } from "../contexts/AuthContext";
+import { addItem, updateItem } from "../functions/storage";
+import { dateToKey } from "../functions/dateToKey";
 
 export const Write = () => {
   
   const {user} = useAuthContext();
-  const {calendarName, records, date, year, colors} = useCalendarContext();
+  const {calendar, selectedRecord, recordIds, date, year, colors} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
-  const dateKey = dateToKey(date);
-  const record = records[dateKey] ? records[dateKey] : {};
   const hide = () => {
     calendarStateDispatch(actionCreator.setDate(null));
   };
   
   const monthName = monthNames[date.month-1];
+  const dateKey = dateToKey(date);
   
-  const [inputText, setInputText] = useState(record ? record.text : undefined);
-  const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
+  const [inputText, setInputText] = useState(selectedRecord ? selectedRecord.text : undefined);
+  const [colorIndex, setColorIndex] = useState(selectedRecord ? selectedRecord.color : undefined);
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };
@@ -32,19 +32,20 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    calendarStateDispatch(
-      actionCreator.addRecord(
-        user,
-        date,
-        calendarName,
-        {
-          [dateKey]: {
-            text: inputText,
-            color: colorIndex
-          }
-        }
-      )
-    );
+    const key = `users/${user.uid}/calendars/${calendar.calendarId}`;
+    const newRecord = {
+      ...date,
+      text: inputText,
+      color: colorIndex
+    };
+    
+    if (selectedRecord) {
+      const keyForUpdateItem = key + `/records/${recordIds[dateKey]}`;
+      updateItem(keyForUpdateItem, newRecord).catch(error => console.log(error));
+    } else {
+      const keyForAddItem = key + `/records`;
+      addItem(keyForAddItem, newRecord).catch(error => console.log(error));
+    }
     hide();
   };
 

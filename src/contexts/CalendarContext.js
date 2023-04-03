@@ -1,15 +1,18 @@
 import { createContext, useContext, useReducer } from "react";
-import { setItem } from "../functions/storage";
 import { useAuthContext } from "./AuthContext";
 import { useSetRecords } from "../hooks/useSetRecords";
 import { useSetCalendar } from "../hooks/useSetCalendar";
+import { useOnSnapshotChange } from "../hooks/useOnSnapshotChange";
+import { dateToKey } from "../functions/dateToKey";
 
 const initialState = {
-  calendarName: null,
+  calendar: null,
   colors: null,
   year: new Date().getFullYear(),
   date: null,
-  records: null
+  records: null,
+  recordIds: null,
+  selectedRecord: null,
 };
 
 export const CalendarContext = createContext(null);
@@ -20,28 +23,42 @@ export const useCalendarContext = () => useContext(CalendarContext);
 export const useCalendarDispatchContext = () => useContext(CalendarDispatchContext);
 
 export const actionCreator = {
-  setCalendar: (calendarName) => ({type: actionTypes.setCalendar, calendarName}),
+  setCalendar: (calendarName, calendarId) => (
+    {
+      type: actionTypes.setCalendar,
+      calendarName,
+      calendarId
+    }),
   setColors: (colors) => ({type: actionTypes.setColors, colors}),
-  setRecord: (records) => ({type: actionTypes.setRecord, records}),
-  addRecord: (user, date, calendarName, newRecord) => (
+  setRecords: (records, recordIds) => (
+    {
+      type: actionTypes.setRecords,
+      records,
+      recordIds
+    }),
+  addRecord: (recordId, newRecord) => (
     {
       type: actionTypes.addRecord,
-      user,
-      date,
-      calendarName,
+      recordId,
       newRecord,
     }),
   setDate: (date) => ({type: actionTypes.setDate, date}),
-  setYear: (value) => ({type: actionTypes.setYear, value})
+  setYear: (value) => ({type: actionTypes.setYear, value}),
+  setSelectedRecord: (selectedRecord) => (
+    {
+      type: actionTypes.setSelectedRecord,
+      selectedRecord
+    })
 };
 
 export const actionTypes = {
   setCalendar: "setCalendar",
   setColors: "setColors",
-  setRecord: "setRecord",
+  setRecords: "setRecords",
   addRecord: "addRecord",
   setDate: "setDate",
-  setYear: "setYear"
+  setYear: "setYear",
+  setSelectedRecord: "setSelectedRecord"
 };
 
 const calendarReducer = (calendarState, action) => {
@@ -49,26 +66,39 @@ const calendarReducer = (calendarState, action) => {
     case actionTypes.setCalendar: {
       return {
         ...calendarState,
-        calendarName: action.calendarName
+        calendar: {
+          calendarName: action.calendarName,
+          calendarId: action.calendarId
+        }
       };
     }
     case actionTypes.setColors: {
       return {...calendarState, colors: action.colors};
     }
-    case actionTypes.setRecord: {
+    case actionTypes.setRecords: {
       return {
         ...calendarState,
-        records: action.records
+        records: action.records,
+        recordIds: action.recordIds
+      };
+    }
+    case actionTypes.setSelectedRecord: {
+      return {
+        ...calendarState,
+        selectedRecord: action.selectedRecord
       };
     }
     case actionTypes.addRecord: {
-      const key = `calendars/${action.user}/${action.calendarName}/${action.date.year}`;
-      setItem(key, action.newRecord).catch(error => console.log(error));
+      const dateKey = dateToKey(action.newRecord);
       return {
         ...calendarState,
         records: {
           ...calendarState.records,
-          ...action.newRecord
+          [dateKey]: action.newRecord
+        },
+        recordIds: {
+          ...calendarState.recordIds,
+          [dateKey]: action.recordId
         }
       };
     }
@@ -85,7 +115,7 @@ const calendarReducer = (calendarState, action) => {
   }
 };
 
-export const CalendarApp = ({children}) => {
+export const CalendarProvider = ({children}) => {
   const [state, dispatch] = useReducer(
     calendarReducer,
     initialState
@@ -95,6 +125,7 @@ export const CalendarApp = ({children}) => {
   
   useSetCalendar(user, dispatch);
   useSetRecords(user, state, dispatch);
+  useOnSnapshotChange(user, state, dispatch);
   
   return (
     <CalendarContext.Provider value={state}>

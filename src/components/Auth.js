@@ -1,12 +1,9 @@
 import "../styles/App.scss";
-import { useAuthContext } from "../contexts/AuthContext";
 import { useState } from "react";
 import { signInEmail } from "../functions/auth";
 
 export const Auth = () => {
-
-  const {auth} = useAuthContext();
-
+  
   const [inputId, setInputId] = useState(null);
   const [inputPw, setInputPw] = useState(null);
   
@@ -18,7 +15,7 @@ export const Auth = () => {
   };
   const onSignIn = (event) => {
     event.preventDefault();
-    signInEmail(auth, inputId, inputPw)
+    signInEmail(inputId, inputPw)
       .catch((error) => {
         console.log(error);
       });
