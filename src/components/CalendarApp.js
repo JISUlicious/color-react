@@ -7,10 +7,10 @@ import { useState } from "react";
 
 
 export const CalendarApp = () => {
-  const {date} = useCalendarContext();
+  const {selectedRecord} = useCalendarContext();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   return <>
-    { date && <Write /> }
+    { selectedRecord && <Write /> }
     <Menu visible={isMenuVisible} hide={() => setIsMenuVisible(false)}/>
     <Header showMenu={setIsMenuVisible}/>
     <Calendar />

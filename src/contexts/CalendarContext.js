@@ -9,7 +9,6 @@ const initialState = {
   calendar: null,
   colors: null,
   year: new Date().getFullYear(),
-  date: null,
   records: null,
   recordIds: null,
   selectedRecord: null,
@@ -42,7 +41,6 @@ export const actionCreator = {
       recordId,
       newRecord,
     }),
-  setDate: (date) => ({type: actionTypes.setDate, date}),
   setYear: (value) => ({type: actionTypes.setYear, value}),
   setSelectedRecord: (selectedRecord) => (
     {
@@ -56,7 +54,6 @@ export const actionTypes = {
   setColors: "setColors",
   setRecords: "setRecords",
   addRecord: "addRecord",
-  setDate: "setDate",
   setYear: "setYear",
   setSelectedRecord: "setSelectedRecord"
 };
@@ -101,9 +98,6 @@ const calendarReducer = (calendarState, action) => {
           [dateKey]: action.recordId
         }
       };
-    }
-    case actionTypes.setDate: {
-      return {...calendarState, date: action.date};
     }
     case actionTypes.setYear: {
       const newYear = calendarState.year + action.value;

@@ -30,8 +30,7 @@ const DayBoxContainer = ({ date, records, dispatch, colors }) => {
   })();
   // define action of DayBox
   const onClick = disabled || indices ? null : () => {
-    dispatch(actionCreator.setDate(date));
-    dispatch(actionCreator.setSelectedRecord(record));
+    dispatch(actionCreator.setSelectedRecord({...record, ...date}));
   };
   // define content of DayBox
   const content = month === 0 && day > 0 ? day

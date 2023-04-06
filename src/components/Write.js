@@ -13,17 +13,17 @@ import { dateToKey } from "../functions/dateToKey";
 export const Write = () => {
   
   const {user} = useAuthContext();
-  const {calendar, selectedRecord, recordIds, date, year, colors} = useCalendarContext();
+  const {calendar, selectedRecord, recordIds, year, colors} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
   const hide = () => {
-    calendarStateDispatch(actionCreator.setDate(null));
+    calendarStateDispatch(actionCreator.setSelectedRecord(null));
   };
   
-  const monthName = monthNames[date.month-1];
-  const dateKey = dateToKey(date);
+  const monthName = monthNames[selectedRecord.month-1];
+  const dateKey = dateToKey(selectedRecord);
   
-  const [inputText, setInputText] = useState(selectedRecord ? selectedRecord.text : undefined);
-  const [colorIndex, setColorIndex] = useState(selectedRecord ? selectedRecord.color : undefined);
+  const [inputText, setInputText] = useState("text" in selectedRecord ? selectedRecord.text : undefined);
+  const [colorIndex, setColorIndex] = useState("color" in selectedRecord ? selectedRecord.color : undefined);
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };
@@ -34,12 +34,12 @@ export const Write = () => {
     event.preventDefault();
     const key = `users/${user.uid}/calendars/${calendar.calendarId}`;
     const newRecord = {
-      ...date,
+      ...selectedRecord,
       text: inputText,
       color: colorIndex
     };
     
-    if (selectedRecord) {
+    if (selectedRecord.text) {
       const keyForUpdateItem = key + `/records/${recordIds[dateKey]}`;
       updateItem(keyForUpdateItem, newRecord).catch(error => console.log(error));
     } else {
@@ -62,7 +62,7 @@ export const Write = () => {
         >
           close
         </button>
-        <h1>{`${date.day} ${monthName} ${year}`}</h1>
+        <h1>{`${selectedRecord.day} ${monthName} ${year}`}</h1>
         {colors.map((v,i) => {
           return (
             <button 
