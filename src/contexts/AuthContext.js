@@ -12,14 +12,16 @@ export const authActionTypes = {
   signUp: "signUp",
   signIn: "signIn",
   signOut: "signOut",
-  deleteUser: "deleteUser"
+  deleteUser: "deleteUser",
+  initAuth: "initAuth"
 };
 
 export const authActionCreator = {
   signUp: (id, pw) => ({type: authActionTypes.signUp, id, pw}),
   signIn: (user) => ({type: authActionTypes.signIn, user}),
   signOut: (user) => ({type: authActionTypes.signOut, user}),
-  deleteUser: (user) => ({type: authActionTypes.deleteUser, user})
+  deleteUser: (user) => ({type: authActionTypes.deleteUser, user}),
+  initAuth: () => ({type: authActionTypes.initAuth})
 };
 
 const authReducer = (authState, action) => {
@@ -38,20 +40,23 @@ const authReducer = (authState, action) => {
       // delete user
       return {};
     }
+    case authActionTypes.initAuth: {
+      return {...authState, initialized: true}
+    }
     default: {
-      console.log("Invalid Action Type:", action.type);
-      return {...authState};
+      throw new Error("Invalid action type:" + action.type);
     }
   }
 };
 
 export const AuthProvider = ({children}) => {
   const [state, dispatch] = useReducer(
-    authReducer, {auth, user: null}
+    authReducer, {auth, user: null, initialized: false}
   );
   
   useEffect(() => {
     const unsubscribe = state.auth.onAuthStateChanged(function (user) {
+      dispatch(authActionCreator.initAuth());
       if (user) {
         dispatch(authActionCreator.signIn(user));
       } else {

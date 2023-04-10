@@ -38,7 +38,7 @@ export const Header = ({showMenu}) => {
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>
-      <button className="side-button profile-button">{calendar ? calendar.calendarName : null}</button>
+      <button className="side-button profile-button">{calendar ? calendar.data().calendarName : null}</button>
     </div>
   );
 };

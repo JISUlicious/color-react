@@ -13,17 +13,17 @@ import { dateToKey } from "../functions/dateToKey";
 export const Write = () => {
   
   const {user} = useAuthContext();
-  const {calendar, selectedRecord, recordIds, year, colors} = useCalendarContext();
+  const {calendar, selectedRecord, records, year} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
   const hide = () => {
     calendarStateDispatch(actionCreator.setSelectedRecord(null));
   };
-  
+  const colors = calendar.data().colors;
   const monthName = monthNames[selectedRecord.month-1];
   const dateKey = dateToKey(selectedRecord);
   
-  const [inputText, setInputText] = useState("text" in selectedRecord ? selectedRecord.text : undefined);
-  const [colorIndex, setColorIndex] = useState("color" in selectedRecord ? selectedRecord.color : undefined);
+  const [inputText, setInputText] = useState("text" in selectedRecord ? selectedRecord.text : "");
+  const [colorIndex, setColorIndex] = useState("color" in selectedRecord ? selectedRecord.color : "");
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };
@@ -32,7 +32,7 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    const key = `users/${user.uid}/calendars/${calendar.calendarId}`;
+    const key = `users/${user.uid}/calendars/${calendar.id}`;
     const newRecord = {
       ...selectedRecord,
       text: inputText,
@@ -40,7 +40,7 @@ export const Write = () => {
     };
     
     if (selectedRecord.text) {
-      const keyForUpdateItem = key + `/records/${recordIds[dateKey]}`;
+      const keyForUpdateItem = key + `/records/${records[dateKey].id}`;
       updateItem(keyForUpdateItem, newRecord).catch(error => console.log(error));
     } else {
       const keyForAddItem = key + `/records`;

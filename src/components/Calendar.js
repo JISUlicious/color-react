@@ -16,7 +16,7 @@ const DayBoxContainer = ({ date, records, dispatch, colors }) => {
   const daysInMonth = new Date(year, month, 0).getDate();
   const disabled = day > daysInMonth;
   const indices = month === 0 || day === 0;
-  const record = !records ? null : records[dateKey] ? records[dateKey] : null;
+  const record = !records ? null : records[dateKey] ? records[dateKey].data() : null;
   
   const className = ` ${disabled ? "disabled" : ""}${indices ? "index" : ""}`;
   // define style of DayBox
@@ -48,9 +48,9 @@ const DayBoxContainer = ({ date, records, dispatch, colors }) => {
 
 export const Calendar = () => {
   
-  const {year, records, colors} = useCalendarContext();
+  const {year, records, calendar} = useCalendarContext();
   const dispatch = useCalendarDispatchContext();
-  
+  const colors = calendar ? calendar.data().colors : null;
   const boxes = [];
   for (let colCount = 0; colCount < numColumns; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {

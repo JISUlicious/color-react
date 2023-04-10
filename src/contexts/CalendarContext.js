@@ -1,16 +1,13 @@
 import { createContext, useContext, useReducer } from "react";
 import { useAuthContext } from "./AuthContext";
-import { useSetRecords } from "../hooks/useSetRecords";
 import { useSetCalendar } from "../hooks/useSetCalendar";
 import { useOnSnapshotChange } from "../hooks/useOnSnapshotChange";
-import { dateToKey } from "../functions/dateToKey";
 
 const initialState = {
   calendar: null,
   colors: null,
   year: new Date().getFullYear(),
   records: null,
-  recordIds: null,
   selectedRecord: null,
 };
 
@@ -22,24 +19,16 @@ export const useCalendarContext = () => useContext(CalendarContext);
 export const useCalendarDispatchContext = () => useContext(CalendarDispatchContext);
 
 export const actionCreator = {
-  setCalendar: (calendarName, calendarId) => (
+  setCalendar: (calendar) => (
     {
       type: actionTypes.setCalendar,
-      calendarName,
-      calendarId
+      calendar
     }),
   setColors: (colors) => ({type: actionTypes.setColors, colors}),
-  setRecords: (records, recordIds) => (
+  setRecords: (records) => (
     {
       type: actionTypes.setRecords,
-      records,
-      recordIds
-    }),
-  addRecord: (recordId, newRecord) => (
-    {
-      type: actionTypes.addRecord,
-      recordId,
-      newRecord,
+      records
     }),
   setYear: (value) => ({type: actionTypes.setYear, value}),
   setSelectedRecord: (selectedRecord) => (
@@ -63,10 +52,7 @@ const calendarReducer = (calendarState, action) => {
     case actionTypes.setCalendar: {
       return {
         ...calendarState,
-        calendar: {
-          calendarName: action.calendarName,
-          calendarId: action.calendarId
-        }
+        calendar: action.calendar
       };
     }
     case actionTypes.setColors: {
@@ -75,8 +61,10 @@ const calendarReducer = (calendarState, action) => {
     case actionTypes.setRecords: {
       return {
         ...calendarState,
-        records: action.records,
-        recordIds: action.recordIds
+        records: {
+          ...calendarState.records,
+          ...action.records
+        }
       };
     }
     case actionTypes.setSelectedRecord: {
@@ -85,26 +73,12 @@ const calendarReducer = (calendarState, action) => {
         selectedRecord: action.selectedRecord
       };
     }
-    case actionTypes.addRecord: {
-      const dateKey = dateToKey(action.newRecord);
-      return {
-        ...calendarState,
-        records: {
-          ...calendarState.records,
-          [dateKey]: action.newRecord
-        },
-        recordIds: {
-          ...calendarState.recordIds,
-          [dateKey]: action.recordId
-        }
-      };
-    }
     case actionTypes.setYear: {
       const newYear = calendarState.year + action.value;
       return {...calendarState, year: newYear};
     }
     default: {
-      return console.log("Invalid Action Type:", action.type);
+      throw new Error("Invalid Action Type:" + action.type);
     }
   }
 };
@@ -118,8 +92,7 @@ export const CalendarProvider = ({children}) => {
   const { user } = useAuthContext();
   
   useSetCalendar(user, dispatch);
-  useSetRecords(user, state, dispatch);
-  useOnSnapshotChange(user, state, dispatch);
+  useOnSnapshotChange(user, state.calendar, state.year, dispatch);
   
   return (
     <CalendarContext.Provider value={state}>

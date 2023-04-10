@@ -5,14 +5,14 @@ import { Auth } from "./components/Auth";
 import { CalendarApp } from "./components/CalendarApp";
 
 function App() {
-  const {user} = useAuthContext();
-  
+  const {initialized, user} = useAuthContext();
   return (
       <div className="app">
-        { !user ? <Auth />
-          : (<CalendarProvider>
-            <CalendarApp />
-          </CalendarProvider>)
+        { !initialized ? null
+          : !user ? <Auth />
+            : (<CalendarProvider>
+              <CalendarApp />
+            </CalendarProvider>)
         }
       </div>
   );
