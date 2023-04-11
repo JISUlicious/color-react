@@ -23,7 +23,7 @@ export const Write = () => {
   const dateKey = dateToKey(selectedRecord);
   
   const [inputText, setInputText] = useState("text" in selectedRecord ? selectedRecord.text : "");
-  const [colorIndex, setColorIndex] = useState("color" in selectedRecord ? selectedRecord.color : "");
+  const [colorIndex, setColorIndex] = useState("color" in selectedRecord ? selectedRecord.color : 2);
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };

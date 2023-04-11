@@ -9,27 +9,19 @@ export const useAuthContext = () => useContext(AuthContext);
 export const useAuthDispatchContext = () => useContext(AuthDispatchContext);
 
 export const authActionTypes = {
-  signUp: "signUp",
   signIn: "signIn",
   signOut: "signOut",
-  deleteUser: "deleteUser",
   initAuth: "initAuth"
 };
 
 export const authActionCreator = {
-  signUp: (id, pw) => ({type: authActionTypes.signUp, id, pw}),
   signIn: (user) => ({type: authActionTypes.signIn, user}),
   signOut: (user) => ({type: authActionTypes.signOut, user}),
-  deleteUser: (user) => ({type: authActionTypes.deleteUser, user}),
   initAuth: () => ({type: authActionTypes.initAuth})
 };
 
 const authReducer = (authState, action) => {
   switch (action.type) {
-    case authActionTypes.signUp: {
-      // sign up
-      return {};
-    }
     case authActionTypes.signIn: {
       return {...authState, user: action.user}
     }

@@ -26,15 +26,17 @@ body {
         padding-left: 20px;
         padding-right: 20px;
         width: 20vw;
+        height: auto;
         align-items: center;
         display: flex;
     }
     .menu-button {
-        text-align: left;
+        justify-content: left;
     }
     .profile-button {
-        text-align: right;
+        justify-content: right;
     }
+
 }
 
 .calendar {
@@ -68,11 +70,4 @@ body {
     height: 100%;
     width: 100%;
     backdrop-filter: blur(2px);
-}
-
-.sign-in {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color: white;
 }
