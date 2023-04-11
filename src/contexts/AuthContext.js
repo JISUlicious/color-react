@@ -28,10 +28,6 @@ const authReducer = (authState, action) => {
     case authActionTypes.signOut: {
       return {...authState, user: null};
     }
-    case authActionTypes.deleteUser: {
-      // delete user
-      return {};
-    }
     case authActionTypes.initAuth: {
       return {...authState, initialized: true}
     }

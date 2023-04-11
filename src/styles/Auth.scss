@@ -7,7 +7,11 @@ $button-width: calc(100% - 10px);
   background-color: white;
   display: flex;
   align-items: center;
-  justify-content: center;}
+  justify-content: center;
+  h1 {
+    text-align: center;
+  }
+}
 
 .auth-wrapper {
   height: 50%;
