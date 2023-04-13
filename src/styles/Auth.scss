@@ -24,14 +24,7 @@ $button-width: calc(100% - 20px);
   height: 50%;
   button {
     width: $button-width;
-    margin: 5px 0 5px 0;
-    border: none;
-    height: 20px;
-    border-radius: 3px;
-    padding: 1px 10px 1px 10px;
-    box-sizing: unset;
     background-color: transparent;
-    cursor: pointer;
   }
   label {
     width: 100%;

@@ -5,6 +5,18 @@ body {
     height: 100vh;
 }
 
+button {
+    margin: 5px 0 5px 0;
+    border: none;
+    height: 20px;
+    border-radius: 3px;
+    padding: 1px 10px 1px 10px;
+    box-sizing: unset;
+    background-color: $secondary-ui-color;
+    color: $secondary-font-color;
+    cursor: pointer;
+}
+
 .header {
     display : flex;
     background-color: $accent-ui-color;

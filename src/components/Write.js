@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { monthNames } from "../params";
+import "../styles/App.scss";
 import "../styles/Write.scss";
 import {
   actionCreator,
@@ -9,6 +10,7 @@ import {
 import { useAuthContext } from "../contexts/AuthContext";
 import { addItem, updateItem } from "../functions/storage";
 import { dateToKey } from "../functions/dateToKey";
+import { DayBox } from "./DayBox";
 
 export const Write = () => {
   
@@ -63,16 +65,18 @@ export const Write = () => {
           close
         </button>
         <h1>{`${selectedRecord.day} ${monthName} ${year}`}</h1>
-        {colors.map((v,i) => {
+        <div style={{display:"inline-flex"}}>{colors.map((v,i) => {
           return (
-            <button 
+            <DayBox
               key={i}
+              className={""}
               style={{
                 backgroundColor: v
               }}
               onClick={() => onColorSetButtonClick(i)}
-            >{i}</button>);
-        })}
+              content={i}
+            ></DayBox>);
+        })}</div>
         <form onSubmit={onSubmitText}>
           <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
           <button style={{backgroundColor:colors[colorIndex]}} type="submit">submit</button>
