@@ -1,9 +1,11 @@
+@import "Colors";
+
 .write {
     z-index: 2;
     height: 50%;
     width: 50%;
     padding: 20px;
-    color: brown;
+    color: $accent-font-color;
     position: absolute;
     left: 50%;
     top: 50%;

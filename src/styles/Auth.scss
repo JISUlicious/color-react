@@ -1,3 +1,5 @@
+@import "Colors";
+
 $button-width: calc(100% - 20px);
 
 :export{
@@ -8,10 +10,11 @@ $button-width: calc(100% - 20px);
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: $primary-ui-color;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: $primary-font-color;
   h1 {
     text-align: center;
   }
@@ -35,19 +38,18 @@ $button-width: calc(100% - 20px);
     display: flex;
     input {
       margin: 5px;
-      //padding: 0 10px 0 10px;
-      border: 1px solid rgba(0,0,0,0.1);
+      border: 1px solid rgba($accent-ui-color, 0.1);
       height: 25px;
       width: $button-width;
       border-radius: 3px;
-      background-color: rgba(200,200,200,0.1);
+      background-color: rgba($secondary-ui-color, 0.5);
     }
   }
   .sign-up {
     background-color: transparent;
     border: none;
     margin: 5px 0 5px 0;
-    color: blue;
+    color: $accent-font-color;
     width: $button-width;
   }
 }

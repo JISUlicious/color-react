@@ -1,4 +1,4 @@
-
+@import "Colors";
 
 body {
     margin: 0;
@@ -7,7 +7,7 @@ body {
 
 .header {
     display : flex;
-    background-color: cadetblue;
+    background-color: $accent-ui-color;
     width: 100vw;
     height: 7vh;
     justify-content: space-between;
@@ -21,6 +21,10 @@ body {
         border: none;
         background-color: transparent;
         padding: 10px;
+        color: $secondary-font-color;
+    }
+    span {
+        color: $secondary-font-color;
     }
     .side-button {
         padding-left: 20px;
@@ -41,22 +45,23 @@ body {
 
 .calendar {
     display: grid;
-    background-color: burlywood;
+    background-color: $primary-ui-color;
     height: 93vh;
     width: 100vw;
     overflow-y: auto;
 }
 
 .day-box {
-    background-color: coral;
+    background-color: $secondary-ui-color;
     margin: 2px;
     height: 20px;
     width: 20px;
     border-radius: 3px;
-    border: 1px solid coral;
+    border: 1px solid $secondary-ui-color;
     text-align: center;
+    color: $primary-font-color;
     .disabled {
-        background-color: dimgrey;
+        background-color: $secondary-ui-color;
     }
 }
 
