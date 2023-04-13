@@ -1,4 +1,8 @@
-$button-width: calc(100% - 10px);
+$button-width: calc(100% - 20px);
+
+:export{
+  buttonWidth: $button-width;
+}
 
 .sign-in {
   position: absolute;
@@ -16,30 +20,35 @@ $button-width: calc(100% - 10px);
 .auth-wrapper {
   height: 50%;
   button {
-    margin: 2px;
-    border: 1px solid rgba(0,0,0,0.1);
+    width: $button-width;
+    margin: 5px 0 5px 0;
+    border: none;
     height: 20px;
     border-radius: 3px;
     padding: 1px 10px 1px 10px;
     box-sizing: unset;
-    background-color: rgba(200,200,200,0.5);
+    background-color: transparent;
     cursor: pointer;
   }
-  input {
-    margin: 5px;
-    padding: 0 10px 0 10px;
-    border: 1px solid rgba(0,0,0,0.1);
-    height: 25px;
-    border-radius: 3px;
-    background-color: rgba(200,200,200,0.1);
+  label {
+    width: 100%;
+    display: flex;
+    input {
+      margin: 5px;
+      //padding: 0 10px 0 10px;
+      border: 1px solid rgba(0,0,0,0.1);
+      height: 25px;
+      width: $button-width;
+      border-radius: 3px;
+      background-color: rgba(200,200,200,0.1);
+    }
   }
   .sign-up {
     background-color: transparent;
     border: none;
-    margin: 5px;
+    margin: 5px 0 5px 0;
     color: blue;
     width: $button-width;
-
   }
 }
 
