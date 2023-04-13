@@ -9,6 +9,7 @@ const initialState = {
   year: new Date().getFullYear(),
   records: null,
   selectedRecord: null,
+  isLoading: true,
 };
 
 export const CalendarContext = createContext(null);
@@ -52,7 +53,8 @@ const calendarReducer = (calendarState, action) => {
     case actionTypes.setCalendar: {
       return {
         ...calendarState,
-        calendar: action.calendar
+        calendar: action.calendar,
+        isLoading: false
       };
     }
     case actionTypes.setColors: {

@@ -24,6 +24,6 @@ export const useOnSnapshotChange = (user, calendar, year, dispatch) => {
       }, (error) => console.log(error));
       return () => unsubscribe();
     }
-    }, [user, calendar]
+    }, [user, calendar, year]
   );
 };

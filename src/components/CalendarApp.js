@@ -7,12 +7,16 @@ import { useState } from "react";
 
 
 export const CalendarApp = () => {
-  const {selectedRecord} = useCalendarContext();
+  const {selectedRecord, isLoading} = useCalendarContext();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   return <>
-    { selectedRecord && <Write /> }
-    <Menu visible={isMenuVisible} hide={() => setIsMenuVisible(false)}/>
-    <Header showMenu={setIsMenuVisible}/>
-    <Calendar />
+    { isLoading ? null :
+      <>
+        { selectedRecord && <Write /> }
+        <Menu visible={isMenuVisible} hide={() => setIsMenuVisible(false)}/>
+        <Header showMenu={setIsMenuVisible}/>
+        <Calendar />
+      </>
+    }
   </>
 };
