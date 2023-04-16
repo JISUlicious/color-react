@@ -16,9 +16,9 @@ const DayBoxContainer = ({ date, records, dispatch, colors }) => {
   const daysInMonth = new Date(year, month, 0).getDate();
   const disabled = day > daysInMonth;
   const indices = month === 0 || day === 0;
-  const record = !records ? null : records[dateKey] ? records[dateKey].data() : null;
+  const record = records?.[dateKey]?.data() || null;
   
-  const className = ` ${disabled ? "disabled" : ""}${indices ? "index" : ""}`;
+  const className = `${disabled ? "disabled" : ""} ${indices ? "index" : ""}`;
   // define style of DayBox
   const style = (() => {
     const backgroundColor = disabled ? "dimgrey"

@@ -2,15 +2,16 @@ import { useEffect } from "react";
 import { getDoc } from "firebase/firestore";
 import { getItem, addItem } from "../functions/storage";
 import { referenceColors } from "../params";
-import { actionCreator } from "../contexts/CalendarContext";
+import { actionCreator, useCalendarDispatchContext } from "../contexts/CalendarContext";
 
-export const useSetCalendar = (user, dispatch) => {
+export const useSetCalendar = (uid) => {
+  const dispatch = useCalendarDispatchContext();
   useEffect(() => {
-    if (user) {
-      getItem(`users/${user.uid}/calendars`, {})
+    if (uid) {
+      getItem(`users/${uid}/calendars`, {})
       .then((res) => {
-        if (res.empty === true && user) {
-          const key = `users/${user.uid}/calendars`
+        if (res.empty === true && uid) {
+          const key = `users/${uid}/calendars`
           const newCalendar = {
             calendarName: 'calendar1',
             colors: referenceColors
@@ -28,5 +29,5 @@ export const useSetCalendar = (user, dispatch) => {
       })
       .catch(error => console.log(error));
     }
-  }, [user]);
+  }, [uid]);
 };

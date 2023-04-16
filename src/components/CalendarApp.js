@@ -10,8 +10,7 @@ export const CalendarApp = () => {
   const {selectedRecord, isLoading} = useCalendarContext();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   return <>
-    { isLoading ? null :
-      <>
+    { isLoading || <>
         { selectedRecord && <Write /> }
         <Menu visible={isMenuVisible} hide={() => setIsMenuVisible(false)}/>
         <Header showMenu={setIsMenuVisible}/>

@@ -1,13 +1,14 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "../functions/firebaseInit";
-import { actionCreator } from "../contexts/CalendarContext";
+import { actionCreator, useCalendarDispatchContext } from "../contexts/CalendarContext";
 import { dateToKey } from "../functions/dateToKey";
 
-export const useOnSnapshotChange = (user, calendar, year, dispatch) => {
+export const useOnSnapshotChange = (uid, calendarId, year) => {
+  const dispatch = useCalendarDispatchContext();
   useEffect(() => {
-    if (user && calendar) {
-      const key = `users/${user.uid}/calendars/${calendar.id}/records`;
+    if (uid && calendarId) {
+      const key = `users/${uid}/calendars/${calendarId}/records`;
       const q = query(
         collection(db, key),
         where("year", "==", year)
@@ -24,6 +25,6 @@ export const useOnSnapshotChange = (user, calendar, year, dispatch) => {
       }, (error) => console.log(error));
       return () => unsubscribe();
     }
-    }, [user, calendar, year]
+    }, [uid, calendarId, year]
   );
 };

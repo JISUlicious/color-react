@@ -39,7 +39,7 @@ export const SignUp = ({setSignUp}) => {
           <button type="submit">Sign Up</button>
       </form>
       <button
-        className={"sign-up"}
+        className="sign-up"
         onClick={onBackToSignIn}
       >
         Already have an account
