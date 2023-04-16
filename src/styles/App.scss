@@ -6,11 +6,11 @@ body {
 }
 
 button {
-    margin: 5px 0 5px 0;
+    margin: 5px 0;
     border: none;
     height: 20px;
     border-radius: 3px;
-    padding: 1px 10px 1px 10px;
+    padding: 1px 10px;
     box-sizing: unset;
     background-color: $secondary-ui-color;
     color: $secondary-font-color;
@@ -72,7 +72,7 @@ button {
     border: 1px solid $secondary-ui-color;
     text-align: center;
     color: $primary-font-color;
-    .disabled {
+    &.disabled {
         background-color: $secondary-ui-color;
     }
 }

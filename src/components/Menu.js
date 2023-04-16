@@ -28,7 +28,7 @@ export const Menu = ({visible, hide}) => {
       >      
         <button onClick={() => hide()}>close</button>
         <div>
-          {user.displayName ? user.displayName : user.email}
+          {user.displayName || user.email}
         </div>
         <ul>
           <li onClick={onManageCalendar}><button>manage calendar(선택,설정)</button></li>
