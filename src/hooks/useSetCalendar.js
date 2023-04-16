@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { getDoc } from "firebase/firestore";
 import { getItem, addItem } from "../functions/storage";
 import { referenceColors } from "../params";
-import { actionCreator, useCalendarDispatchContext } from "../contexts/CalendarContext";
+import { actionCreator } from "../contexts/CalendarContext";
 
-export const useSetCalendar = (uid) => {
-  const dispatch = useCalendarDispatchContext();
+export const useSetCalendar = (uid, dispatch) => {
   useEffect(() => {
     if (uid) {
       getItem(`users/${uid}/calendars`, {})

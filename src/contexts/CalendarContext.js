@@ -93,8 +93,8 @@ export const CalendarProvider = ({children}) => {
   
   const { user } = useAuthContext();
   
-  useSetCalendar(user.uid);
-  useOnSnapshotChange(user.uid, state.calendar?.id || null, state.year);
+  useSetCalendar(user.uid, dispatch);
+  useOnSnapshotChange(user.uid, state.calendar?.id || null, state.year, dispatch);
   
   return (
     <CalendarContext.Provider value={state}>
