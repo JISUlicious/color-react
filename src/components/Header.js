@@ -29,7 +29,7 @@ export const Header = ({showMenu}) => {
           }}>
           <MdKeyboardDoubleArrowLeft />
         </button>
-        <span>{year}</span>
+        <button className="year">{year}</button>
         <button
           className="year-nav-button"
           onClick={() => {

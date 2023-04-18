@@ -74,12 +74,12 @@ export const Write = () => {
                 backgroundColor: v
               }}
               onClick={() => onColorSetButtonClick(i)}
-              content={i}
+              content={null}
             ></DayBox>);
         })}</div>
         <form onSubmit={onSubmitText}>
           <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
-          <button style={{backgroundColor:colors[colorIndex]}} type="submit">submit</button>
+          <button style={{backgroundColor:colors[colorIndex]}} type="submit">SUBMIT</button>
         </form>
       </div>
     </div>);

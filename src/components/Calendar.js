@@ -21,9 +21,7 @@ const DayBoxContainer = ({ date, records, dispatch, colors }) => {
   const className = `${disabled ? "disabled" : ""} ${indices ? "index" : ""}`;
   // define style of DayBox
   const style = (() => {
-    const backgroundColor = disabled ? "dimgrey"
-      : record ? colors[record.color]
-        : null;
+    const backgroundColor = record && colors[record.color];
     const border = record && "1px solid black"
     const gridArea = `${day + 1}/${month + 1}/${day + 2}/${month + 2}`
     return {backgroundColor, border, gridArea};
@@ -62,13 +60,15 @@ export const Calendar = () => {
   }
 
   return (
-    <div
-      className="calendar"
-      style={{
-        gridTemplate: `repeat(${numRows}, 1fr)/repeat(${numColumns}, 1fr)`,
-      }}
-    >
-      {boxes}
+    <div className="calendar-wrapper">
+      <div
+        className="calendar"
+        style={{
+          gridTemplate: `repeat(${numRows}, 1fr)/repeat(${numColumns}, 1fr)`,
+        }}
+      >
+        {boxes}
+      </div>
     </div>
   );
 };

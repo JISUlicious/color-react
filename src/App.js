@@ -1,4 +1,5 @@
 import "./styles/App.scss";
+import "./styles/Fonts.scss";
 import { useAuthContext } from "./contexts/AuthContext";
 import { CalendarProvider } from "./contexts/CalendarContext";
 import { Auth } from "./components/Auth";
