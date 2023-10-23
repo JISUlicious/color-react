@@ -12,6 +12,7 @@ const numRows = 32; // num max days in a month + month index row
 
 const DayBoxContainer = ({ date, records, dispatch, colors }) => {
   const dateKey = dateToKey(date);
+
   const {year, month, day} = date;
   const daysInMonth = new Date(year, month, 0).getDate();
   const disabled = day > daysInMonth;
@@ -20,12 +21,14 @@ const DayBoxContainer = ({ date, records, dispatch, colors }) => {
   
   const className = `${disabled ? "disabled" : ""} ${indices ? "index" : ""}`;
   // define style of DayBox
+
   const style = (() => {
     const backgroundColor = record && colors[record.color];
     const border = record && "1px solid black"
     const gridArea = `${day + 1}/${month + 1}/${day + 2}/${month + 2}`
     return {backgroundColor, border, gridArea};
   })();
+
   // define action of DayBox
   const onClick = disabled || indices ? null : () => {
     dispatch(actionCreator.setSelectedRecord({...record, ...date}));
