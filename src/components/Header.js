@@ -10,9 +10,9 @@ import {
 } from "../contexts/CalendarContext";
 
 export const Header = ({showMenu}) => {
-  const {year} = useCalendarContext();
+  const {year, calendar} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
-  
+
   return (
     <div className="header">
       <button
@@ -24,17 +24,21 @@ export const Header = ({showMenu}) => {
       <div className="year-buttons">
         <button
           className="year-nav-button"
-          onClick={() => calendarStateDispatch(actionCreator.setYear(-1))}>
+          onClick={() => {
+            calendarStateDispatch(actionCreator.setYear(-1));
+          }}>
           <MdKeyboardDoubleArrowLeft />
         </button>
-        <span>{year}</span>
+        <button className="year">{year}</button>
         <button
           className="year-nav-button"
-          onClick={() => calendarStateDispatch(actionCreator.setYear(1))}>
+          onClick={() => {
+            calendarStateDispatch(actionCreator.setYear(1));
+          }}>
           <MdKeyboardDoubleArrowRight />
         </button>
       </div>
-      <button className="side-button profile-button">My Calendar</button>
+      <button className="side-button profile-button">{calendar ? calendar.data().calendarName : null}</button>
     </div>
   );
 };

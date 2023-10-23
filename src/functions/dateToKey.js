@@ -4,5 +4,5 @@
  * @returns {string}
  */
 export const dateToKey = (date) => {
-    return '' + date.month + '-' + date.day;
+    return '' + date.year + '-' + date.month + '-' + date.day;
 };

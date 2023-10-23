@@ -1,23 +1,21 @@
 import "./styles/App.scss";
-import { Header } from "./components/Header";
-import { Calendar } from "./components/Calendar";
-import { Write } from "./components/Write";
-import { Menu } from "./components/Menu";
-import { useCalendarContext } from "./contexts/CalendarContext";
-import { useState } from "react";
+import "./styles/Fonts.scss";
+import { useAuthContext } from "./contexts/AuthContext";
+import { CalendarProvider } from "./contexts/CalendarContext";
+import { Auth } from "./components/Auth";
+import { CalendarApp } from "./components/CalendarApp";
 
 function App() {
-  
-  const {date} = useCalendarContext();
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-
+  const {initialized, user} = useAuthContext();
   return (
-    <div className="app">
-      { date && <Write /> }
-      <Menu visible={isMenuVisible} hide={() => setIsMenuVisible(false)}/>
-      <Header showMenu={setIsMenuVisible}/>
-      <Calendar />
-    </div>
+      <div className="app">
+        { !initialized ? null
+          : !user ? <Auth />
+            : (<CalendarProvider>
+              <CalendarApp />
+            </CalendarProvider>)
+        }
+      </div>
   );
 }
 

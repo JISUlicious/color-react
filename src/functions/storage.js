@@ -1,26 +1,42 @@
-import localforage from "localforage";
+import { db } from "./firebaseInit";
+import { doc, setDoc, getDocs, addDoc, collection, query } from "firebase/firestore";
 
 /**
- * 
- * @param {*} key string
- * @param {*} defaultValue null
- * @returns object 
+ *
+ * @param key firestore path to collection
+ * @param defaultValue
+ * @param filter firestore query constrain
+ * @returns {Promise<QuerySnapshot<DocumentData>>}
  */
-export const getItem = (key, defaultValue = null) => localforage.getItem(key)
+
+export const getItem = (key, defaultValue = null, filter = null) => {
+  return getDocs(query(collection(db, key), filter))
     .then(res => {
-        if (res === null) {
-            return defaultValue;
-        } else {
-            return JSON.parse(res);
-        }
+      if (res === null) {
+        return defaultValue;
+      } else {
+        return res;
+      }
     });
+};
 
 /**
- * 
- * @param {*} key string
- * @param {*} value any
- * @returns JSON string
+ *
+ * @param key firestore firestore path to collection
+ * @param value
+ * @returns {Promise<DocumentReference<DocumentData>>}
  */
-export const setItem = (key, value) => {
-  return localforage.setItem(key, JSON.stringify(value));
+
+export const addItem = (key, value) => {
+  return addDoc(collection(db, key), value);
+};
+
+/**
+ *
+ * @param key firestore path to document
+ * @param value
+ * @returns {Promise<void>}
+ */
+export const updateItem = (key, value) => {
+  return setDoc(doc(db, key), value);
 };

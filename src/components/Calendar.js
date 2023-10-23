@@ -2,7 +2,7 @@
 creates Calendar component
 creates DayBox div with loop
 */
-import { monthNames, referenceColors } from "../params";
+import { monthNames } from "../params";
 import { dateToKey } from "../functions/dateToKey";
 import { DayBox } from "./DayBox";
 import { actionCreator, useCalendarContext, useCalendarDispatchContext } from "../contexts/CalendarContext";
@@ -10,58 +10,68 @@ import { actionCreator, useCalendarContext, useCalendarDispatchContext } from ".
 const numColumns = 13; // num months + day index col
 const numRows = 32; // num max days in a month + month index row
 
-const DayBoxContainer = ({date, record, dispatch}) => {
-  
-  const key = dateToKey(date);
+const DayBoxContainer = ({ date, records, dispatch, colors }) => {
+  const dateKey = dateToKey(date);
+
   const {year, month, day} = date;
   const daysInMonth = new Date(year, month, 0).getDate();
   const disabled = day > daysInMonth;
   const indices = month === 0 || day === 0;
+  const record = records?.[dateKey]?.data() || null;
   
-  const className = ` ${disabled ? "disabled" : ""}${indices ? "index" : ""}`;
+  const className = `${disabled ? "disabled" : ""} ${indices ? "index" : ""}`;
   // define style of DayBox
-  const backgroundColor = disabled ? "dimgrey"
-    : record ? referenceColors[record.color]
-      : null;
-  const border = record && "1px solid black"
-  const gridArea = `${day + 1}/${month + 1}/${day + 2}/${month + 2}`
-  const style = {backgroundColor, border, gridArea};
+
+  const style = (() => {
+    const backgroundColor = record && colors[record.color];
+    const border = record && "1px solid black"
+    const gridArea = `${day + 1}/${month + 1}/${day + 2}/${month + 2}`
+    return {backgroundColor, border, gridArea};
+  })();
+
   // define action of DayBox
   const onClick = disabled || indices ? null : () => {
-    dispatch(actionCreator.setDate(date));
+    dispatch(actionCreator.setSelectedRecord({...record, ...date}));
   };
   // define content of DayBox
   const content = month === 0 && day > 0 ? day
     : day === 0 && month > 0 ? monthNames[month - 1]
       : null;
   
-  return (<DayBox key={key} className={className} style={style} onClick={onClick} content={content}/>);
+  return (<DayBox
+    key={dateKey}
+    className={className}
+    style={style}
+    onClick={onClick}
+    content={content}
+  />);
 };
 
 export const Calendar = () => {
   
-  const {year, records} = useCalendarContext();
+  const {year, records, calendar} = useCalendarContext();
   const dispatch = useCalendarDispatchContext();
-  
+  const colors = calendar ? calendar.data().colors : null;
   const boxes = [];
   for (let colCount = 0; colCount < numColumns; colCount++) {
     for (let rowCount = 0; rowCount < numRows; rowCount++) {
       const date = {year: year, month: colCount, day: rowCount};
       const key = dateToKey(date);
-      const record = !records ? null : records[key] ? records[key] : null;
-      const box = <DayBoxContainer {...{ key, date, record, dispatch }}/>;
+      const box = <DayBoxContainer {...{ key, date, records, dispatch, colors }} />;
       boxes.push(box);
     }
   }
 
   return (
-    <div
-      className="calendar"
-      style={{
-        gridTemplate: `repeat(${numRows}, 1fr)/repeat(${numColumns}, 1fr)`,
-      }}
-    >
-      {boxes}
+    <div className="calendar-wrapper">
+      <div
+        className="calendar"
+        style={{
+          gridTemplate: `repeat(${numRows}, 1fr)/repeat(${numColumns}, 1fr)`,
+        }}
+      >
+        {boxes}
+      </div>
     </div>
   );
 };

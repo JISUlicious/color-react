@@ -1,28 +1,31 @@
 import { useState } from "react";
-import { monthNames, referenceColors } from "../params";
-import { dateToKey } from "../functions/dateToKey";
+import { monthNames } from "../params";
+import "../styles/App.scss";
 import "../styles/Write.scss";
 import {
   actionCreator,
   useCalendarContext,
   useCalendarDispatchContext
 } from "../contexts/CalendarContext";
+import { useAuthContext } from "../contexts/AuthContext";
+import { addItem, updateItem } from "../functions/storage";
+import { dateToKey } from "../functions/dateToKey";
+import { DayBox } from "./DayBox";
 
 export const Write = () => {
   
-  const {records, date, year} = useCalendarContext();
+  const {user} = useAuthContext();
+  const {calendar, selectedRecord, records, year} = useCalendarContext();
   const calendarStateDispatch = useCalendarDispatchContext();
-  
-  const dateKey = dateToKey(date);
-  const record = records[dateKey] ? records[dateKey] : {};
   const hide = () => {
-    calendarStateDispatch(actionCreator.setDate(null))
+    calendarStateDispatch(actionCreator.setSelectedRecord(null));
   };
+  const colors = calendar.data().colors;
+  const monthName = monthNames[selectedRecord.month-1];
+  const dateKey = dateToKey(selectedRecord);
   
-  const monthName = monthNames[date.month-1];
-  
-  const [inputText, setInputText] = useState(record ? record.text : undefined);
-  const [colorIndex, setColorIndex] = useState(record ? record.color : undefined);
+  const [inputText, setInputText] = useState("text" in selectedRecord ? selectedRecord.text : "");
+  const [colorIndex, setColorIndex] = useState("color" in selectedRecord ? selectedRecord.color : 2);
   const onColorSetButtonClick = (i) => {
     setColorIndex(i);
   };
@@ -31,12 +34,24 @@ export const Write = () => {
   };
   const onSubmitText = (event) => {
     event.preventDefault();
-    calendarStateDispatch(actionCreator.addRecord(date, {text: inputText, color: colorIndex}));
+    const key = `users/${user.uid}/calendars/${calendar.id}`;
+    const newRecord = {
+      ...selectedRecord,
+      text: inputText,
+      color: colorIndex
+    };
+    
+    if (selectedRecord.text) {
+      const keyForUpdateItem = key + `/records/${records[dateKey].id}`;
+      updateItem(keyForUpdateItem, newRecord).catch(error => console.log(error));
+    } else {
+      const keyForAddItem = key + `/records`;
+      addItem(keyForAddItem, newRecord).catch(error => console.log(error));
+    }
     hide();
   };
 
-  return (
-    <div 
+  return (<div
       className="backdrop"
       onClick={() => hide()}
     >
@@ -49,22 +64,23 @@ export const Write = () => {
         >
           close
         </button>
-        <h1>{`${date.day} ${monthName} ${year}`}</h1>
-        {referenceColors.map((v,i) => {
+        <h1>{`${selectedRecord.day} ${monthName} ${year}`}</h1>
+        <div style={{display:"inline-flex"}}>{colors.map((v,i) => {
           return (
-            <button 
+            <DayBox
               key={i}
+              className={""}
               style={{
                 backgroundColor: v
               }}
               onClick={() => onColorSetButtonClick(i)}
-            >{i}</button>);
-        })}
+              content={null}
+            ></DayBox>);
+        })}</div>
         <form onSubmit={onSubmitText}>
-        <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
-        <button style={{backgroundColor:referenceColors[colorIndex]}} type="submit">submit</button>
+          <textarea value={inputText} placeholder="Write here" onChange={onTextChange}></textarea>
+          <button style={{backgroundColor:colors[colorIndex]}} type="submit">SUBMIT</button>
         </form>
       </div>
-    </div>
-  );
+    </div>);
 };

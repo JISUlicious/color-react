@@ -1,14 +1,29 @@
+@import "Colors";
+
 .menu {
     padding: 20px;
-    background-color: white;
+    background-color: $primary-ui-color;
     height: 50%;
     width: 50%;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    color: $primary-font-color;
 }
 
 dialog {
     background-color: transparent;
+}
+
+ul {
+    button {
+        all: unset;
+    }
+    li {
+        :hover {
+            font-weight: bold;
+            color: $accent-font-color;
+        }
+    }
 }
