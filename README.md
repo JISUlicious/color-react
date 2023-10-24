@@ -6,7 +6,7 @@
 - 2023-02~2023-04
 
 ## Tech
-- Javascript, React.JS
+- Javascript, React.JS, SCSS
 - Firebase, AWS S3
 
 ## Functionalities
