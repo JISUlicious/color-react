@@ -6,7 +6,7 @@
 - 2023-02~2023-04
 
 ## Tech
-- Typescript, React.JS
+- Javascript, React.JS
 - Firebase, AWS S3
 
 ## Functionalities
